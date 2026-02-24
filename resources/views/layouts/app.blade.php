@@ -15,11 +15,15 @@
     <!-- Custom Modern CSS -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     
+    <!-- Mobile App Style CSS -->
+    <link rel="stylesheet" href="{{ asset('css/mobile.css') }}">
+    
     @stack('styles')
 </head>
 <body>
     @auth
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <!-- Desktop Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light desktop-only">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
                 <i class="bi bi-truck-front"></i> Sistem Perjalanan
@@ -132,6 +136,19 @@
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Header -->
+    <div class="mobile-header mobile-only">
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-truck-front"></i>
+            <h1>Sistem Perjalanan</h1>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="window.location.reload()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
+    </div>
     @endauth
 
     <main class="main-content" style="min-height: calc(100vh - 140px); padding: 24px 0;">
@@ -154,7 +171,80 @@
         </div>
     </main>
 
-    <footer class="bg-white border-top py-4 mt-auto">
+    @auth
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav mobile-only">
+        @if(auth()->user()->role->name === 'driver')
+            <a href="{{ route('driver.trips.index') }}" 
+               class="bottom-nav-item {{ request()->routeIs('driver.trips.index') ? 'active' : '' }}">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="{{ route('driver.trips.create') }}" 
+               class="bottom-nav-item {{ request()->routeIs('driver.trips.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Buat</span>
+            </a>
+            <a href="{{ route('driver.trips.history') }}" 
+               class="bottom-nav-item {{ request()->routeIs('driver.trips.history') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i>
+                <span>Riwayat</span>
+            </a>
+            <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+                <i class="bi bi-person-circle"></i>
+                <span>Profil</span>
+            </a>
+        @elseif(auth()->user()->role->name === 'supervisor')
+            <a href="{{ route('supervisor.dashboard') }}" 
+               class="bottom-nav-item {{ request()->routeIs('supervisor.dashboard') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dasbor</span>
+            </a>
+            <a href="{{ route('supervisor.trips.pending') }}" 
+               class="bottom-nav-item {{ request()->routeIs('supervisor.trips.pending') ? 'active' : '' }}">
+                <i class="bi bi-inbox-fill"></i>
+                <span>Pengajuan</span>
+            </a>
+            <a href="{{ route('supervisor.trips.all') }}" 
+               class="bottom-nav-item {{ request()->routeIs('supervisor.trips.all') ? 'active' : '' }}">
+                <i class="bi bi-list-ul"></i>
+                <span>Semua</span>
+            </a>
+            <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+                <i class="bi bi-person-circle"></i>
+                <span>Profil</span>
+            </a>
+        @elseif(auth()->user()->role->name === 'admin')
+            <a href="{{ route('admin.dashboard') }}" 
+               class="bottom-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dasbor</span>
+            </a>
+            <a href="{{ route('admin.vehicles.index') }}" 
+               class="bottom-nav-item {{ request()->routeIs('admin.vehicles.*') ? 'active' : '' }}">
+                <i class="bi bi-car-front-fill"></i>
+                <span>Kendaraan</span>
+            </a>
+            <a href="{{ route('admin.trips.index') }}" 
+               class="bottom-nav-item {{ request()->routeIs('admin.trips.*') ? 'active' : '' }}">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Perjalanan</span>
+            </a>
+            <a href="{{ route('admin.users.index') }}" 
+               class="bottom-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                <i class="bi bi-people-fill"></i>
+                <span>Pengguna</span>
+            </a>
+        @endif
+    </nav>
+    
+    <!-- Hidden logout form for mobile -->
+    <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    @endauth
+
+    <footer class="bg-white border-top py-4 mt-auto desktop-only">
         <div class="container-fluid px-4 text-center">
             <small class="text-muted">
                 <i class="bi bi-c-circle me-1"></i>{{ date('Y') }} Sistem Perjalanan. Hak cipta dilindungi.
