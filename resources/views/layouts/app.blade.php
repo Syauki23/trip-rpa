@@ -192,7 +192,7 @@
             </a>
             <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
                 <i class="bi bi-person-circle"></i>
-                <span>Profil</span>
+                <span>Log Out</span>
             </a>
         @elseif(auth()->user()->role->name === 'supervisor')
             <a href="{{ route('supervisor.dashboard') }}" 
@@ -212,7 +212,7 @@
             </a>
             <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
                 <i class="bi bi-person-circle"></i>
-                <span>Profil</span>
+                <span>Log Out</span>
             </a>
         @elseif(auth()->user()->role->name === 'admin')
             <a href="{{ route('admin.dashboard') }}" 

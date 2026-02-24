@@ -3,11 +3,18 @@
 @section('title', 'Perjalanan - Supervisor')
 
 @section('content')
-<div class="mb-4">
+<!-- Mobile Section Title -->
+<div class="mobile-only mobile-section-title">
+    <i class="bi bi-list-ul me-2"></i>Manajemen Perjalanan
+</div>
+
+<!-- Desktop Header -->
+<div class="mb-4 desktop-only">
     <h2><i class="bi bi-list-ul"></i> Manajemen Perjalanan</h2>
 </div>
 
-<div class="card">
+<!-- Desktop Card -->
+<div class="card desktop-only">
     <div class="card-body">
         @if($trips->count() > 0)
             <div class="table-responsive">
@@ -56,5 +63,56 @@
             </div>
         @endif
     </div>
+</div>
+
+<!-- Mobile List View -->
+<div class="mobile-only mobile-list-view">
+    @if($trips->count() > 0)
+        @foreach($trips as $trip)
+        <div class="mobile-list-item" onclick="window.location='{{ route('supervisor.trips.show', $trip) }}'">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">
+                        <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+                        {{ $trip->tujuan }}
+                    </div>
+                    <div class="item-subtitle">
+                        Driver: {{ $trip->driver->name }}
+                    </div>
+                </div>
+                <div>
+                    {!! $trip->status_badge !!}
+                </div>
+            </div>
+            
+            <div class="item-meta">
+                <div class="meta-item">
+                    <i class="bi bi-car-front"></i>
+                    <span>{{ $trip->vehicle->name ?? '-' }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{ $trip->jam_out->format('d M Y') }}</span>
+                </div>
+            </div>
+            
+            <div class="item-actions">
+                <a href="{{ route('supervisor.trips.show', $trip) }}" class="btn btn-primary btn-sm flex-fill" onclick="event.stopPropagation()">
+                    <i class="bi bi-eye"></i> Lihat Detail
+                </a>
+            </div>
+        </div>
+        @endforeach
+        
+        <div class="mt-3">
+            {{ $trips->links() }}
+        </div>
+    @else
+        <div class="mobile-empty-state">
+            <i class="bi bi-inbox"></i>
+            <h5>Tidak Ada Perjalanan</h5>
+            <p>Belum ada data perjalanan</p>
+        </div>
+    @endif
 </div>
 @endsection
