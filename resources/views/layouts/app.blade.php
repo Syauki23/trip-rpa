@@ -40,18 +40,33 @@
                 <ul class="navbar-nav me-auto">
                     @if(auth()->user()->role->name === 'admin')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.vehicles.index') }}">
+                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
+                               href="{{ route('admin.dashboard') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.vehicles.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.vehicles.index') }}">
                                 <i class="bi bi-car-front"></i> Vehicles
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.trips.index') }}">
+                            <a class="nav-link {{ request()->routeIs('admin.trips.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.trips.index') }}">
                                 <i class="bi bi-list-ul"></i> Trips
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.users.index') }}">
+                            <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.users.index') }}">
                                 <i class="bi bi-people"></i> Manajemen Akun
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.reports.trips') }}">
+                                <i class="bi bi-file-earmark-text"></i> Laporan Rekap Perjalanan
                             </a>
                         </li>
                     @elseif(auth()->user()->role->name === 'supervisor')
@@ -62,13 +77,21 @@
                         </li>
                     @elseif(auth()->user()->role->name === 'driver')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('driver.trips.index') }}">
+                            <a class="nav-link {{ request()->routeIs('driver.trips.index') ? 'active' : '' }}" 
+                               href="{{ route('driver.trips.index') }}">
                                 <i class="bi bi-list-ul"></i> My Trips
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('driver.trips.create') }}">
+                            <a class="nav-link {{ request()->routeIs('driver.trips.create') ? 'active' : '' }}" 
+                               href="{{ route('driver.trips.create') }}">
                                 <i class="bi bi-plus-circle"></i> New Trip
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('driver.trips.history') ? 'active' : '' }}" 
+                               href="{{ route('driver.trips.history') }}">
+                                <i class="bi bi-clock-history"></i> Riwayat
                             </a>
                         </li>
                     @endif

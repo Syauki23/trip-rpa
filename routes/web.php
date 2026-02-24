@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use App\Http\Controllers\Admin\TripController as AdminTripController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\TripReportController as AdminTripReportController;
 use App\Http\Controllers\Supervisor\TripController as SupervisorTripController;
 use App\Http\Controllers\Driver\TripController as DriverTripController;
 
@@ -19,10 +21,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     Route::resource('vehicles', AdminVehicleController::class);
     Route::resource('users', AdminUserController::class);
     Route::get('trips', [AdminTripController::class, 'index'])->name('trips.index');
     Route::get('trips/{trip}', [AdminTripController::class, 'show'])->name('trips.show');
+    
+    // Reports Routes
+    Route::get('reports/trips', [AdminTripReportController::class, 'index'])->name('reports.trips');
+    Route::get('reports/trips/export-excel', [AdminTripReportController::class, 'exportExcel'])->name('reports.trips.export-excel');
+    Route::get('reports/trips/export-pdf', [AdminTripReportController::class, 'exportPdf'])->name('reports.trips.export-pdf');
 });
 
 // Supervisor Routes
@@ -38,6 +46,7 @@ Route::middleware(['auth', 'role:driver'])->prefix('driver')->name('driver.')->g
     Route::get('trips', [DriverTripController::class, 'index'])->name('trips.index');
     Route::get('trips/create', [DriverTripController::class, 'create'])->name('trips.create');
     Route::post('trips', [DriverTripController::class, 'store'])->name('trips.store');
+    Route::get('trips/history', [DriverTripController::class, 'history'])->name('trips.history');
     Route::get('trips/{trip}', [DriverTripController::class, 'show'])->name('trips.show');
     Route::post('trips/{trip}/start', [DriverTripController::class, 'start'])->name('trips.start');
     Route::get('trips/{trip}/finish', [DriverTripController::class, 'finishForm'])->name('trips.finish');

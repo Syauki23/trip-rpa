@@ -20,6 +20,17 @@ class TripController extends Controller
         return view('driver.trips.index', compact('trips'));
     }
 
+    public function history()
+    {
+        $trips = Trip::where('driver_id', auth()->id())
+            ->whereIn('status', ['completed', 'rejected'])
+            ->with('vehicle')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        return view('driver.trips.history', compact('trips'));
+    }
+
     public function create()
     {
         $vehicles = Vehicle::where('status', 'available')->get();
