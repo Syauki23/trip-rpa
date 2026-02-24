@@ -49,6 +49,11 @@
                                 <i class="bi bi-list-ul"></i> Trips
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">
+                                <i class="bi bi-people"></i> Manajemen Akun
+                            </a>
+                        </li>
                     @elseif(auth()->user()->role->name === 'supervisor')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('supervisor.trips.index') }}">

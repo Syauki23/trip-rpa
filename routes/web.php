@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use App\Http\Controllers\Admin\TripController as AdminTripController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Supervisor\TripController as SupervisorTripController;
 use App\Http\Controllers\Driver\TripController as DriverTripController;
 
@@ -19,6 +20,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('vehicles', AdminVehicleController::class);
+    Route::resource('users', AdminUserController::class);
     Route::get('trips', [AdminTripController::class, 'index'])->name('trips.index');
     Route::get('trips/{trip}', [AdminTripController::class, 'show'])->name('trips.show');
 });
