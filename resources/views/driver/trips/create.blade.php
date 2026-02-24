@@ -56,12 +56,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="km_awal" class="form-label">Odometer Awal (KM) <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('km_awal') is-invalid @enderror" 
-                               id="km_awal" name="km_awal" value="{{ old('km_awal') }}" 
-                               placeholder="contoh: 12345" min="0" required>
+                        <label for="km_awal_display" class="form-label">Odometer Awal (KM) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('km_awal') is-invalid @enderror" 
+                               id="km_awal_display" 
+                               placeholder="contoh: 1.500" inputmode="numeric" autocomplete="off" required>
+                        <input type="hidden" id="km_awal" name="km_awal" value="{{ old('km_awal') }}">
+                        <small class="text-muted">Masukkan angka odometer. Akan diformat otomatis.</small>
                         @error('km_awal')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -111,6 +113,34 @@
 
 @push('scripts')
 <script>
+    // Setup auto-format ribuan dengan hidden input
+    (function() {
+        const displayInput = document.getElementById('km_awal_display');
+        const hiddenInput = document.getElementById('km_awal');
+        
+        if (displayInput && hiddenInput) {
+            // Set initial value if exists
+            if (hiddenInput.value) {
+                displayInput.value = new Intl.NumberFormat('id-ID').format(hiddenInput.value);
+            }
+            
+            // Format saat user mengetik
+            displayInput.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, ''); // hanya angka
+                
+                // Update hidden input dengan angka murni
+                hiddenInput.value = value;
+                
+                // Format display dengan ribuan
+                if (value) {
+                    this.value = new Intl.NumberFormat('id-ID').format(value);
+                } else {
+                    this.value = '';
+                }
+            });
+        }
+    })();
+    
     // Handle image compression and preview
     document.getElementById('foto_awal').addEventListener('change', function(e) {
         const file = e.target.files[0];

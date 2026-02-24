@@ -24,13 +24,14 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="km_akhir" class="form-label">Odometer Akhir (KM) <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('km_akhir') is-invalid @enderror" 
-                               id="km_akhir" name="km_akhir" value="{{ old('km_akhir') }}" 
-                               placeholder="contoh: 12445" min="{{ $trip->km_awal }}" required>
-                        <small class="text-muted">KM Awal: {{ $trip->km_awal }}</small>
+                        <label for="km_akhir_display" class="form-label">Odometer Akhir (KM) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('km_akhir') is-invalid @enderror" 
+                               id="km_akhir_display" 
+                               placeholder="contoh: 1.500" inputmode="numeric" autocomplete="off" required>
+                        <input type="hidden" id="km_akhir" name="km_akhir" value="{{ old('km_akhir') }}">
+                        <small class="text-muted">KM Awal: {{ number_format($trip->km_awal, 0, ',', '.') }} | Masukkan angka odometer. Akan diformat otomatis.</small>
                         @error('km_akhir')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -81,6 +82,34 @@
 
 @push('scripts')
 <script>
+    // Setup auto-format ribuan dengan hidden input untuk km_akhir
+    (function() {
+        const displayInput = document.getElementById('km_akhir_display');
+        const hiddenInput = document.getElementById('km_akhir');
+        
+        if (displayInput && hiddenInput) {
+            // Set initial value if exists
+            if (hiddenInput.value) {
+                displayInput.value = new Intl.NumberFormat('id-ID').format(hiddenInput.value);
+            }
+            
+            // Format saat user mengetik
+            displayInput.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, ''); // hanya angka
+                
+                // Update hidden input dengan angka murni
+                hiddenInput.value = value;
+                
+                // Format display dengan ribuan
+                if (value) {
+                    this.value = new Intl.NumberFormat('id-ID').format(value);
+                } else {
+                    this.value = '';
+                }
+            });
+        }
+    })();
+    
     // Handle image compression and preview for foto_akhir
     document.getElementById('foto_akhir').addEventListener('change', function(e) {
         const file = e.target.files[0];
