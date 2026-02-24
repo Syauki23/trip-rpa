@@ -81,6 +81,7 @@
     
     /* ========================================
        BOTTOM NAVIGATION BAR
+       Mobile Only - All Roles (Driver, Supervisor, Admin)
        ======================================== */
     .bottom-nav {
         position: fixed;
@@ -97,16 +98,26 @@
         border-top: 1px solid #E5E7EB;
     }
     
+    /* Admin Bottom Nav: 4 items
+       - Dasbor (speedometer icon)
+       - Kendaraan (car icon)
+       - Perjalanan (location icon)
+       - Akun (user icon)
+    */
+    
     .bottom-nav-item {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-decoration: none;
-        color: #6B7280;
+        color: #9A9A9A;
         padding: 8px 12px;
         border-radius: 12px;
         transition: all 0.2s ease;
         min-width: 60px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
     }
     
     .bottom-nav-item i {
@@ -121,7 +132,7 @@
     
     .bottom-nav-item.active {
         color: #F97316;
-        background-color: #FFF7ED;
+        background-color: transparent;
     }
     
     .bottom-nav-item:hover {
@@ -615,6 +626,118 @@
         .bottom-nav {
             padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
         }
+    }
+    
+    /* ========================================
+       MOBILE ACCOUNT POPUP MENU
+       ======================================== */
+    .account-menu-popup {
+        position: fixed;
+        bottom: 80px;
+        right: 12px;
+        width: 240px;
+        background: white;
+        border-radius: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 1100;
+        animation: slideUpFade 0.25s ease;
+        overflow: hidden;
+    }
+    
+    @keyframes slideUpFade {
+        from {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1099;
+        animation: fadeIn 0.25s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    .account-menu-header {
+        padding: 16px;
+        border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .account-menu-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 2px;
+    }
+    
+    .account-menu-email {
+        font-size: 0.8125rem;
+        color: #6B7280;
+    }
+    
+    .account-menu-body {
+        padding: 8px 0;
+    }
+    
+    .account-menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        color: #374151;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #F3F4F6;
+        cursor: pointer;
+    }
+    
+    .account-menu-item:last-child {
+        border-bottom: none;
+    }
+    
+    .account-menu-item:hover,
+    .account-menu-item:active {
+        background: #F9FAFB;
+    }
+    
+    .account-menu-item i {
+        font-size: 1.25rem;
+        color: #F97316;
+        margin-right: 12px;
+    }
+    
+    .account-menu-item .item-content {
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+    
+    .theme-status {
+        font-size: 0.75rem;
+        color: #9CA3AF;
+        font-weight: 400;
     }
     
     /* ========================================

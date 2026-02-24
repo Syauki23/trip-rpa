@@ -18,9 +18,12 @@
     <!-- Mobile App Style CSS -->
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}">
     
+    <!-- Dark Mode CSS -->
+    <link rel="stylesheet" href="{{ asset('css/darkmode.css') }}">
+    
     @stack('styles')
 </head>
-<body>
+<body class="light-mode" id="themeBody">
     @auth
     <!-- Desktop Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light desktop-only">
@@ -111,6 +114,11 @@
                     @endif
                 </ul>
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark Mode">
+                            <i class="bi bi-moon-fill" id="themeIcon"></i>
+                        </button>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
@@ -190,10 +198,10 @@
                 <i class="bi bi-clock-history"></i>
                 <span>Riwayat</span>
             </a>
-            <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+            <button class="bottom-nav-item" onclick="toggleAccountMenu(event)" type="button">
                 <i class="bi bi-person-circle"></i>
-                <span>Log Out</span>
-            </a>
+                <span>Akun</span>
+            </button>
         @elseif(auth()->user()->role->name === 'supervisor')
             <a href="{{ route('supervisor.dashboard') }}" 
                class="bottom-nav-item {{ request()->routeIs('supervisor.dashboard') ? 'active' : '' }}">
@@ -210,10 +218,10 @@
                 <i class="bi bi-list-ul"></i>
                 <span>Semua</span>
             </a>
-            <a href="#" class="bottom-nav-item" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+            <button class="bottom-nav-item" onclick="toggleAccountMenu(event)" type="button">
                 <i class="bi bi-person-circle"></i>
-                <span>Log Out</span>
-            </a>
+                <span>Akun</span>
+            </button>
         @elseif(auth()->user()->role->name === 'admin')
             <a href="{{ route('admin.dashboard') }}" 
                class="bottom-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -230,18 +238,47 @@
                 <i class="bi bi-geo-alt-fill"></i>
                 <span>Perjalanan</span>
             </a>
-            <a href="{{ route('admin.users.index') }}" 
-               class="bottom-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                <i class="bi bi-people-fill"></i>
-                <span>Pengguna</span>
-            </a>
+            <button class="bottom-nav-item" onclick="toggleAccountMenu(event)" type="button">
+                <i class="bi bi-person-circle"></i>
+                <span>Akun</span>
+            </button>
         @endif
     </nav>
     
-    <!-- Hidden logout form for mobile -->
-    <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
+    <!-- Mobile Account Menu Popup -->
+    <div id="accountMenuPopup" class="account-menu-popup" style="display: none;">
+        <div class="account-menu-header">
+            <div class="account-menu-name">{{ auth()->user()->name }}</div>
+            <div class="account-menu-email">{{ auth()->user()->email }}</div>
+        </div>
+        <div class="account-menu-body">
+            <button class="account-menu-item" onclick="toggleTheme()" type="button">
+                <div class="item-content">
+                    <i class="bi bi-moon-stars-fill" id="themeIconMobile"></i>
+                    <span>Ubah Tema</span>
+                </div>
+                <span class="theme-status" id="themeStatusMobile">Light</span>
+            </button>
+            <button class="account-menu-item" onclick="alert('Fitur Profil akan segera hadir')" type="button">
+                <div class="item-content">
+                    <i class="bi bi-person-fill"></i>
+                    <span>Profil</span>
+                </div>
+            </button>
+            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="account-menu-item">
+                    <div class="item-content">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Log Out</span>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Popup Overlay -->
+    <div id="popupOverlay" class="popup-overlay" onclick="closeAccountMenu()" style="display: none;"></div>
     @endauth
 
     <footer class="bg-white border-top py-4 mt-auto desktop-only">
@@ -253,6 +290,122 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dark Mode Theme Toggle Script -->
+    <script>
+        // Apply theme function
+        function applyTheme(theme) {
+            const body = document.getElementById('themeBody');
+            if (body) {
+                body.className = theme;
+            }
+            updateThemeIcons(theme);
+        }
+        
+        // Load theme from localStorage on page load
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            applyTheme(savedTheme);
+        })();
+        
+        // Toggle theme function
+        function toggleTheme() {
+            const body = document.getElementById('themeBody');
+            const currentTheme = body.className;
+            const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
+            
+            // Apply new theme with smooth transition
+            applyTheme(newTheme);
+            
+            // Save to localStorage
+            localStorage.setItem('theme', newTheme);
+            
+            // Add subtle animation feedback
+            body.style.transition = 'background-color 0.25s ease, color 0.25s ease';
+        }
+        
+        // Update theme icons
+        function updateThemeIcons(theme) {
+            const themeIcon = document.getElementById('themeIcon');
+            const themeIconMobile = document.getElementById('themeIconMobile');
+            const themeStatusMobile = document.getElementById('themeStatusMobile');
+            
+            if (theme === 'dark-mode') {
+                if (themeIcon) {
+                    themeIcon.className = 'bi bi-sun-fill';
+                }
+                if (themeIconMobile) {
+                    themeIconMobile.className = 'bi bi-sun-fill';
+                }
+                if (themeStatusMobile) {
+                    themeStatusMobile.textContent = 'Dark';
+                }
+            } else {
+                if (themeIcon) {
+                    themeIcon.className = 'bi bi-moon-fill';
+                }
+                if (themeIconMobile) {
+                    themeIconMobile.className = 'bi bi-moon-stars-fill';
+                }
+                if (themeStatusMobile) {
+                    themeStatusMobile.textContent = 'Light';
+                }
+            }
+        }
+        
+        // Toggle account menu popup (mobile)
+        function toggleAccountMenu(event) {
+            event.stopPropagation();
+            const popup = document.getElementById('accountMenuPopup');
+            const overlay = document.getElementById('popupOverlay');
+            
+            if (popup && overlay) {
+                const isVisible = popup.style.display === 'block';
+                
+                if (isVisible) {
+                    closeAccountMenu();
+                } else {
+                    popup.style.display = 'block';
+                    overlay.style.display = 'block';
+                }
+            }
+        }
+        
+        // Close account menu
+        function closeAccountMenu() {
+            const popup = document.getElementById('accountMenuPopup');
+            const overlay = document.getElementById('popupOverlay');
+            
+            if (popup && overlay) {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('popupOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    closeAccountMenu();
+                });
+            }
+            
+            // Close popup when clicking anywhere on the page except the popup itself
+            document.addEventListener('click', function(event) {
+                const popup = document.getElementById('accountMenuPopup');
+                const accountButton = event.target.closest('.bottom-nav-item');
+                
+                if (popup && popup.style.display === 'block') {
+                    // Check if click is outside popup and not on account button
+                    if (!popup.contains(event.target) && !accountButton) {
+                        closeAccountMenu();
+                    }
+                }
+            });
+        });
+    </script>
+    
     @stack('scripts')
 </body>
 </html>

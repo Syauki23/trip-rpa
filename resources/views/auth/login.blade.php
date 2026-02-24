@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/darkmode.css') }}">
     <style>
         body {
             background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 100%);
@@ -15,6 +16,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1E1E1E 100%);
         }
         .login-card {
             max-width: 450px;
@@ -38,6 +42,9 @@
             padding: 1rem;
             margin-top: 1.5rem;
         }
+        body.dark-mode .demo-section {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
         .demo-account {
             background-color: white;
             border-radius: 6px;
@@ -45,9 +52,45 @@
             margin-bottom: 0.5rem;
             border-left: 3px solid var(--primary-orange);
         }
+        body.dark-mode .demo-account {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .theme-toggle-login {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        body.dark-mode .theme-toggle-login {
+            background: #1E1E1E;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .theme-toggle-login:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+        }
+        .theme-toggle-login i {
+            font-size: 1.5rem;
+            color: #F97316;
+        }
     </style>
 </head>
-<body>
+<body class="light-mode" id="themeBody">
+    <button class="theme-toggle-login" onclick="toggleTheme()" title="Toggle Dark Mode">
+        <i class="bi bi-moon-fill" id="themeIconLogin"></i>
+    </button>
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -139,5 +182,54 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dark Mode Theme Toggle Script -->
+    <script>
+        // Apply theme function
+        function applyTheme(theme) {
+            const body = document.getElementById('themeBody');
+            if (body) {
+                body.className = theme;
+            }
+            updateThemeIcon(theme);
+        }
+        
+        // Load theme from localStorage on page load
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            applyTheme(savedTheme);
+        })();
+        
+        // Toggle theme function
+        function toggleTheme() {
+            const body = document.getElementById('themeBody');
+            const currentTheme = body.className;
+            const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
+            
+            // Apply new theme with smooth transition
+            applyTheme(newTheme);
+            
+            // Save to localStorage
+            localStorage.setItem('theme', newTheme);
+            
+            // Add subtle animation feedback
+            body.style.transition = 'background-color 0.25s ease, color 0.25s ease';
+        }
+        
+        // Update theme icon
+        function updateThemeIcon(theme) {
+            const themeIconLogin = document.getElementById('themeIconLogin');
+            
+            if (theme === 'dark-mode') {
+                if (themeIconLogin) {
+                    themeIconLogin.className = 'bi bi-sun-fill';
+                }
+            } else {
+                if (themeIconLogin) {
+                    themeIconLogin.className = 'bi bi-moon-fill';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
