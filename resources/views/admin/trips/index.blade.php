@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'All Trips - Admin')
+@section('title', 'Semua Perjalanan - Admin')
 
 @section('content')
 <div class="mb-4">
-    <h2><i class="bi bi-list-ul"></i> All Trips</h2>
+    <h2><i class="bi bi-list-ul"></i> Semua Perjalanan</h2>
 </div>
 
 <div class="card">
@@ -16,11 +16,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Driver</th>
-                            <th>Vehicle</th>
-                            <th>Destination</th>
-                            <th>Date Out</th>
+                            <th>Kendaraan</th>
+                            <th>Tujuan</th>
+                            <th>Tanggal Keluar</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
                             <td>{!! $trip->status_badge !!}</td>
                             <td>
                                 <a href="{{ route('admin.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i> View
+                                    <i class="bi bi-eye"></i> Lihat
                                 </a>
                             </td>
                         </tr>
@@ -52,7 +52,7 @@
         @else
             <div class="text-center py-5">
                 <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                <p class="text-muted mt-3">No trips found.</p>
+                <p class="text-muted mt-3">Tidak ada perjalanan ditemukan.</p>
             </div>
         @endif
     </div>

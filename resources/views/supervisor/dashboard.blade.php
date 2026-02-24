@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Supervisor Dashboard')
+@section('title', 'Dashboard Supervisor')
 
 @section('content')
 <div class="container-fluid py-4">
@@ -16,7 +16,7 @@
                 <div class="card-body text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <p class="mb-1 opacity-75">Trip Pending</p>
+                            <p class="mb-1 opacity-75">Perjalanan Pending</p>
                             <h2 class="mb-0 fw-bold">{{ $totalPending }}</h2>
                         </div>
                         <div class="bg-white bg-opacity-25 rounded p-3">
@@ -60,7 +60,7 @@
                 <div class="card-body text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <p class="mb-1 opacity-75">Trip Selesai</p>
+                            <p class="mb-1 opacity-75">Perjalanan Selesai</p>
                             <h2 class="mb-0 fw-bold">{{ $totalCompleted }}</h2>
                         </div>
                         <div class="bg-white bg-opacity-25 rounded p-3">
@@ -110,11 +110,11 @@
                                             </td>
                                             <td>{{ $trip->tujuan }}</td>
                                             <td>{{ $trip->created_at->format('d M Y') }}</td>
-                                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                            <td><span class="badge bg-warning text-dark">Menunggu</span></td>
                                             <td class="text-center">
                                                 <a href="{{ route('supervisor.trips.show', $trip) }}" 
                                                    class="btn btn-sm btn-outline-primary">
-                                                    <i class="bi bi-eye me-1"></i>View
+                                                    <i class="bi bi-eye me-1"></i>Lihat
                                                 </a>
                                             </td>
                                         </tr>
@@ -166,11 +166,11 @@
                                             </td>
                                             <td>{{ $trip->tujuan }}</td>
                                             <td>{{ $trip->updated_at->format('d M Y') }}</td>
-                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td><span class="badge bg-success">Selesai</span></td>
                                             <td class="text-center">
                                                 <a href="{{ route('supervisor.trips.show', $trip) }}" 
                                                    class="btn btn-sm btn-outline-primary">
-                                                    <i class="bi bi-eye me-1"></i>View
+                                                    <i class="bi bi-eye me-1"></i>Lihat
                                                 </a>
                                             </td>
                                         </tr>

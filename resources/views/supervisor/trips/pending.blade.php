@@ -52,11 +52,11 @@
                                     </td>
                                     <td>{{ $trip->tujuan }}</td>
                                     <td>{{ $trip->created_at->format('d M Y H:i') }}</td>
-                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                    <td><span class="badge bg-warning text-dark">Menunggu</span></td>
                                     <td class="text-center">
                                         <a href="{{ route('supervisor.trips.show', $trip) }}" 
                                            class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye me-1"></i>View
+                                            <i class="bi bi-eye me-1"></i>Lihat
                                         </a>
                                     </td>
                                 </tr>

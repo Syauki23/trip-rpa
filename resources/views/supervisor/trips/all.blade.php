@@ -54,23 +54,23 @@
                                     <td>{{ $trip->created_at->format('d M Y') }}</td>
                                     <td>
                                         @if($trip->status === 'pending')
-                                            <span class="badge bg-warning text-dark">Pending</span>
+                                            <span class="badge bg-warning text-dark">Menunggu</span>
                                         @elseif($trip->status === 'approved')
-                                            <span class="badge bg-info">Approved</span>
+                                            <span class="badge bg-info">Disetujui</span>
                                         @elseif($trip->status === 'ongoing')
-                                            <span class="badge bg-primary">Ongoing</span>
+                                            <span class="badge bg-primary">Sedang Berjalan</span>
                                         @elseif($trip->status === 'completed')
-                                            <span class="badge bg-success">Completed</span>
+                                            <span class="badge bg-success">Selesai</span>
                                         @elseif($trip->status === 'rejected')
-                                            <span class="badge bg-danger">Rejected</span>
+                                            <span class="badge bg-danger">Ditolak</span>
                                         @elseif($trip->status === 'verified')
-                                            <span class="badge bg-dark">Verified</span>
+                                            <span class="badge bg-dark">Terverifikasi</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('supervisor.trips.show', $trip) }}" 
                                            class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye me-1"></i>View
+                                            <i class="bi bi-eye me-1"></i>Lihat
                                         </a>
                                     </td>
                                 </tr>

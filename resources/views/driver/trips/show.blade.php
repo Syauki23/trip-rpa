@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Trip Details - Driver')
+@section('title', 'Detail Perjalanan - Driver')
 
 @section('content')
 <div class="mb-4">
     <a href="{{ route('driver.trips.index') }}" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Back
+        <i class="bi bi-arrow-left"></i> Kembali
     </a>
 </div>
 
@@ -13,19 +13,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="mb-0"><i class="bi bi-file-text"></i> Trip Details #{{ $trip->id }}</h4>
+                <h4 class="mb-0"><i class="bi bi-file-text"></i> Detail Perjalanan #{{ $trip->id }}</h4>
                 <div>
                     @if($trip->status === 'approved')
                         <form action="{{ route('driver.trips.start', $trip) }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-primary" 
-                                    onclick="return confirm('Start this trip?')">
-                                <i class="bi bi-play-circle"></i> Start Trip
+                                    onclick="return confirm('Mulai perjalanan ini?')">
+                                <i class="bi bi-play-circle"></i> Mulai Perjalanan
                             </button>
                         </form>
                     @elseif($trip->status === 'ongoing')
                         <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-success">
-                            <i class="bi bi-stop-circle"></i> Finish Trip
+                            <i class="bi bi-stop-circle"></i> Selesaikan Perjalanan
                         </a>
                     @endif
                 </div>

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Vehicles - Admin')
+@section('title', 'Kendaraan - Admin')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="bi bi-car-front"></i> Vehicle Management</h2>
+    <h2><i class="bi bi-car-front"></i> Manajemen Kendaraan</h2>
     <a href="{{ route('admin.vehicles.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Add Vehicle
+        <i class="bi bi-plus-circle"></i> Tambah Kendaraan
     </a>
 </div>
 
@@ -18,11 +18,11 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Plate Number</th>
+                            <th>Nama</th>
+                            <th>Nomor Plat</th>
                             <th>Status</th>
-                            <th>Created At</th>
-                            <th>Actions</th>
+                            <th>Dibuat Pada</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,9 +33,9 @@
                             <td><span class="badge bg-secondary">{{ $vehicle->plate_number }}</span></td>
                             <td>
                                 @if($vehicle->status === 'available')
-                                    <span class="badge bg-success">Available</span>
+                                    <span class="badge bg-success">Tersedia</span>
                                 @elseif($vehicle->status === 'in_use')
-                                    <span class="badge bg-warning">In Use</span>
+                                    <span class="badge bg-warning">Digunakan</span>
                                 @else
                                     <span class="badge bg-danger">Maintenance</span>
                                 @endif
@@ -47,7 +47,7 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form action="{{ route('admin.vehicles.destroy', $vehicle) }}" method="POST" 
-                                          onsubmit="return confirm('Are you sure you want to delete this vehicle?');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus kendaraan ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-outline-danger">
@@ -68,9 +68,9 @@
         @else
             <div class="text-center py-5">
                 <i class="bi bi-car-front text-muted" style="font-size: 3rem;"></i>
-                <p class="text-muted mt-3">No vehicles found. Add your first vehicle!</p>
+                <p class="text-muted mt-3">Tidak ada kendaraan. Tambahkan kendaraan pertama Anda!</p>
                 <a href="{{ route('admin.vehicles.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Add Vehicle
+                    <i class="bi bi-plus-circle"></i> Tambah Kendaraan
                 </a>
             </div>
         @endif

@@ -93,15 +93,15 @@
                     <td>{{ $trip->total_km ? number_format($trip->total_km) : '-' }}</td>
                     <td>
                         @if($trip->status === 'pending')
-                            <span class="badge badge-pending">Pending</span>
+                            <span class="badge badge-pending">Menunggu</span>
                         @elseif($trip->status === 'approved')
-                            <span class="badge badge-approved">Approved</span>
+                            <span class="badge badge-approved">Disetujui</span>
                         @elseif($trip->status === 'ongoing')
-                            <span class="badge badge-ongoing">Ongoing</span>
+                            <span class="badge badge-ongoing">Sedang Berjalan</span>
                         @elseif($trip->status === 'completed')
-                            <span class="badge badge-completed">Completed</span>
+                            <span class="badge badge-completed">Selesai</span>
                         @elseif($trip->status === 'rejected')
-                            <span class="badge badge-rejected">Rejected</span>
+                            <span class="badge badge-rejected">Ditolak</span>
                         @endif
                     </td>
                     <td>{{ $trip->created_at->format('d/m/Y') }}</td>

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'My Trips - Driver')
+@section('title', 'Perjalanan Saya - Driver')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="bi bi-list-ul"></i> My Trips</h2>
+    <h2><i class="bi bi-list-ul"></i> Perjalanan Saya</h2>
     <a href="{{ route('driver.trips.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> New Trip
+        <i class="bi bi-plus-circle"></i> Buat Perjalanan
     </a>
 </div>
 
@@ -18,11 +18,11 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Vehicle</th>
-                            <th>Destination</th>
-                            <th>Date Out</th>
+                            <th>Kendaraan</th>
+                            <th>Tujuan</th>
+                            <th>Tanggal Keluar</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,7 +38,7 @@
                             <td>{!! $trip->status_badge !!}</td>
                             <td>
                                 <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i> View
+                                    <i class="bi bi-eye"></i> Lihat
                                 </a>
                             </td>
                         </tr>
@@ -53,9 +53,9 @@
         @else
             <div class="text-center py-5">
                 <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                <p class="text-muted mt-3">No trips found. Create your first trip!</p>
+                <p class="text-muted mt-3">Tidak ada perjalanan. Buat perjalanan pertama Anda!</p>
                 <a href="{{ route('driver.trips.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> New Trip
+                    <i class="bi bi-plus-circle"></i> Buat Perjalanan
                 </a>
             </div>
         @endif

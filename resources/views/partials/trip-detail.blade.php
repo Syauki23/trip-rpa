@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-md-6">
-        <h5 class="mb-3">Trip Information</h5>
+        <h5 class="mb-3">Informasi Perjalanan</h5>
         <table class="table table-bordered">
             <tr>
-                <th width="40%">Trip ID</th>
+                <th width="40%">ID Perjalanan</th>
                 <td>#{{ $trip->id }}</td>
             </tr>
             <tr>
@@ -11,18 +11,18 @@
                 <td>{{ $trip->driver->name }}</td>
             </tr>
             <tr>
-                <th>Vehicle</th>
+                <th>Kendaraan</th>
                 <td>
                     {{ $trip->vehicle->name }}<br>
                     <span class="badge bg-secondary">{{ $trip->vehicle->plate_number }}</span>
                 </td>
             </tr>
             <tr>
-                <th>Destination</th>
+                <th>Tujuan</th>
                 <td>{{ $trip->tujuan }}</td>
             </tr>
             <tr>
-                <th>Purpose</th>
+                <th>Keperluan</th>
                 <td>{{ $trip->keperluan }}</td>
             </tr>
             <tr>
@@ -33,14 +33,14 @@
     </div>
 
     <div class="col-md-6">
-        <h5 class="mb-3">Trip Details</h5>
+        <h5 class="mb-3">Detail Perjalanan</h5>
         <table class="table table-bordered">
             <tr>
-                <th width="40%">Departure Time</th>
+                <th width="40%">Waktu Berangkat</th>
                 <td>{{ $trip->jam_out->format('d M Y H:i') }}</td>
             </tr>
             <tr>
-                <th>Return Time</th>
+                <th>Waktu Kembali</th>
                 <td>
                     @if($trip->jam_in)
                         {{ $trip->jam_in->format('d M Y H:i') }}
@@ -50,11 +50,11 @@
                 </td>
             </tr>
             <tr>
-                <th>Starting KM</th>
+                <th>KM Awal</th>
                 <td>{{ number_format($trip->km_awal) }} km</td>
             </tr>
             <tr>
-                <th>Ending KM</th>
+                <th>KM Akhir</th>
                 <td>
                     @if($trip->km_akhir)
                         {{ number_format($trip->km_akhir) }} km
@@ -64,7 +64,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Total Distance</th>
+                <th>Total Jarak</th>
                 <td>
                     @if($trip->total_km)
                         <strong>{{ number_format($trip->total_km) }} km</strong>
@@ -74,7 +74,7 @@
                 </td>
             </tr>
             <tr>
-                <th>Created At</th>
+                <th>Dibuat Pada</th>
                 <td>{{ $trip->created_at->format('d M Y H:i') }}</td>
             </tr>
         </table>
@@ -83,11 +83,11 @@
 
 <div class="row mt-4">
     <div class="col-md-6">
-        <h5 class="mb-3">Starting Photo</h5>
+        <h5 class="mb-3">Foto Awal</h5>
         <div class="card">
             <div class="card-body text-center">
                 <img src="{{ asset('storage/' . $trip->foto_awal) }}" 
-                     alt="Starting Photo" 
+                     alt="Foto Awal" 
                      class="img-fluid rounded"
                      style="max-height: 400px; object-fit: contain;">
             </div>
@@ -95,18 +95,18 @@
     </div>
 
     <div class="col-md-6">
-        <h5 class="mb-3">Ending Photo</h5>
+        <h5 class="mb-3">Foto Akhir</h5>
         <div class="card">
             <div class="card-body text-center">
                 @if($trip->foto_akhir)
                     <img src="{{ asset('storage/' . $trip->foto_akhir) }}" 
-                         alt="Ending Photo" 
+                         alt="Foto Akhir" 
                          class="img-fluid rounded"
                          style="max-height: 400px; object-fit: contain;">
                 @else
                     <div class="text-muted py-5">
                         <i class="bi bi-image" style="font-size: 3rem;"></i>
-                        <p class="mt-3">No ending photo yet</p>
+                        <p class="mt-3">Belum ada foto akhir</p>
                     </div>
                 @endif
             </div>

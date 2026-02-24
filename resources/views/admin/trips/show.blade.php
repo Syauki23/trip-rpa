@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Trip Details - Admin')
+@section('title', 'Detail Perjalanan - Admin')
 
 @section('content')
 <div class="mb-4">
     <a href="{{ route('admin.trips.index') }}" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Back
+        <i class="bi bi-arrow-left"></i> Kembali
     </a>
 </div>
 
@@ -13,7 +13,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0"><i class="bi bi-file-text"></i> Trip Details #{{ $trip->id }}</h4>
+                <h4 class="mb-0"><i class="bi bi-file-text"></i> Detail Perjalanan #{{ $trip->id }}</h4>
             </div>
             <div class="card-body">
                 @include('partials.trip-detail', ['trip' => $trip])

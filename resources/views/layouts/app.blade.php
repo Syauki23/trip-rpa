@@ -1,37 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Trip System')</title>
+    <title>@yield('title', 'Sistem Perjalanan')</title>
+    
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .main-content {
-            flex: 1;
-            padding: 2rem 0;
-        }
-        .card {
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-    </style>
+    
+    <!-- Custom Modern CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    
     @stack('styles')
 </head>
 <body>
     @auth
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
-                <i class="bi bi-truck"></i> Trip System
+                <i class="bi bi-truck-front"></i> Sistem Perjalanan
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -42,19 +33,19 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
                                href="{{ route('admin.dashboard') }}">
-                                <i class="bi bi-speedometer2"></i> Dashboard
+                                <i class="bi bi-speedometer2"></i> Dasbor
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.vehicles.*') ? 'active' : '' }}" 
                                href="{{ route('admin.vehicles.index') }}">
-                                <i class="bi bi-car-front"></i> Vehicles
+                                <i class="bi bi-car-front"></i> Kendaraan
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.trips.*') ? 'active' : '' }}" 
                                href="{{ route('admin.trips.index') }}">
-                                <i class="bi bi-list-ul"></i> Trips
+                                <i class="bi bi-list-ul"></i> Perjalanan
                             </a>
                         </li>
                         <li class="nav-item">
@@ -73,7 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('supervisor.dashboard') ? 'active' : '' }}" 
                                href="{{ route('supervisor.dashboard') }}">
-                                <i class="bi bi-speedometer2"></i> Dashboard
+                                <i class="bi bi-speedometer2"></i> Dasbor
                             </a>
                         </li>
                         <li class="nav-item">
@@ -98,13 +89,13 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('driver.trips.index') ? 'active' : '' }}" 
                                href="{{ route('driver.trips.index') }}">
-                                <i class="bi bi-list-ul"></i> My Trips
+                                <i class="bi bi-list-ul"></i> Perjalanan Saya
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('driver.trips.create') ? 'active' : '' }}" 
                                href="{{ route('driver.trips.create') }}">
-                                <i class="bi bi-plus-circle"></i> New Trip
+                                <i class="bi bi-plus-circle"></i> Buat Perjalanan
                             </a>
                         </li>
                         <li class="nav-item">
@@ -131,7 +122,7 @@
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        <i class="bi bi-box-arrow-right"></i> Keluar
                                     </button>
                                 </form>
                             </li>
@@ -143,18 +134,18 @@
     </nav>
     @endauth
 
-    <main class="main-content">
-        <div class="container">
+    <main class="main-content" style="min-height: calc(100vh - 140px); padding: 24px 0;">
+        <div class="container-fluid px-4">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle"></i> {{ session('success') }}
+                    <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
@@ -163,9 +154,11 @@
         </div>
     </main>
 
-    <footer class="bg-light py-3 mt-auto">
-        <div class="container text-center text-muted">
-            <small>&copy; {{ date('Y') }} Trip System. All rights reserved.</small>
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container-fluid px-4 text-center">
+            <small class="text-muted">
+                <i class="bi bi-c-circle me-1"></i>{{ date('Y') }} Sistem Perjalanan. Hak cipta dilindungi.
+            </small>
         </div>
     </footer>
 
