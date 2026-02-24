@@ -71,8 +71,27 @@
                         </li>
                     @elseif(auth()->user()->role->name === 'supervisor')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('supervisor.trips.index') }}">
-                                <i class="bi bi-list-ul"></i> Trips
+                            <a class="nav-link {{ request()->routeIs('supervisor.dashboard') ? 'active' : '' }}" 
+                               href="{{ route('supervisor.dashboard') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('supervisor.trips.pending') ? 'active' : '' }}" 
+                               href="{{ route('supervisor.trips.pending') }}">
+                                <i class="bi bi-inbox"></i> Pengajuan Masuk
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('supervisor.trips.all') ? 'active' : '' }}" 
+                               href="{{ route('supervisor.trips.all') }}">
+                                <i class="bi bi-list-ul"></i> Semua Perjalanan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('supervisor.trips.review') ? 'active' : '' }}" 
+                               href="{{ route('supervisor.trips.review') }}">
+                                <i class="bi bi-check-circle"></i> Selesai & Review
                             </a>
                         </li>
                     @elseif(auth()->user()->role->name === 'driver')

@@ -28,7 +28,7 @@ class LoginController extends Controller
 
             return match ($role) {
                 'admin' => redirect()->intended('/admin/dashboard'),
-                'supervisor' => redirect()->intended('/supervisor/trips'),
+                'supervisor' => redirect()->intended('/supervisor/dashboard'),
                 'driver' => redirect()->intended('/driver/trips'),
                 default => redirect('/'),
             };
