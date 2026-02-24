@@ -43,9 +43,15 @@
                             <td>{{ $trip->jam_out->format('d M Y H:i') }}</td>
                             <td>{!! $trip->status_badge !!}</td>
                             <td>
-                                <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i> Lihat
-                                </a>
+                                @if($trip->status === 'approved')
+                                    <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-check-circle"></i> Selesaikan
+                                    </a>
+                                @else
+                                    <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Lihat
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -72,7 +78,7 @@
 <div class="mobile-only mobile-list-view">
     @if($trips->count() > 0)
         @foreach($trips as $trip)
-        <div class="mobile-list-item" onclick="window.location='{{ route('driver.trips.show', $trip) }}'">
+        <div class="mobile-list-item" onclick="window.location='{{ $trip->status === 'approved' ? route('driver.trips.finish', $trip) : route('driver.trips.show', $trip) }}'">
             <div class="item-header">
                 <div>
                     <div class="item-title">
@@ -104,9 +110,15 @@
             </div>
             
             <div class="item-actions">
-                <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-primary btn-sm flex-fill" onclick="event.stopPropagation()">
-                    <i class="bi bi-eye"></i> Lihat Detail
-                </a>
+                @if($trip->status === 'approved')
+                    <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-success btn-sm flex-fill" onclick="event.stopPropagation()">
+                        <i class="bi bi-check-circle"></i> Selesaikan
+                    </a>
+                @else
+                    <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-primary btn-sm flex-fill" onclick="event.stopPropagation()">
+                        <i class="bi bi-eye"></i> Lihat Detail
+                    </a>
+                @endif
             </div>
         </div>
         @endforeach

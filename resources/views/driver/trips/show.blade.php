@@ -15,15 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="mb-0"><i class="bi bi-file-text"></i> Detail Perjalanan #{{ $trip->id }}</h4>
                 <div>
-                    @if($trip->status === 'approved')
-                        <form action="{{ route('driver.trips.start', $trip) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-primary" 
-                                    onclick="return confirm('Mulai perjalanan ini?')">
-                                <i class="bi bi-play-circle"></i> Mulai Perjalanan
-                            </button>
-                        </form>
-                    @elseif($trip->status === 'ongoing')
+                    @if($trip->status === 'ongoing')
                         <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-success">
                             <i class="bi bi-stop-circle"></i> Selesaikan Perjalanan
                         </a>

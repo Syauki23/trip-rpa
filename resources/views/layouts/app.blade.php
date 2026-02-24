@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Sistem Perjalanan')</title>
+    <title>@yield('title', 'PT RPA')</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
     <nav class="navbar navbar-expand-lg navbar-light desktop-only">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
-                <i class="bi bi-truck-front"></i> Sistem Perjalanan
+                <i class="bi bi-truck-front"></i> PT RPA
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -149,7 +149,7 @@
     <div class="mobile-header mobile-only">
         <div class="d-flex align-items-center gap-3">
             <i class="bi bi-truck-front"></i>
-            <h1>Sistem Perjalanan</h1>
+            <h1>PT RPA</h1>
         </div>
         <div class="header-actions">
             <button class="btn" onclick="window.location.reload()">
@@ -284,7 +284,7 @@
     <footer class="bg-white border-top py-4 mt-auto desktop-only">
         <div class="container-fluid px-4 text-center">
             <small class="text-muted">
-                <i class="bi bi-c-circle me-1"></i>{{ date('Y') }} Sistem Perjalanan. Hak cipta dilindungi.
+                <i class="bi bi-c-circle me-1"></i>{{ date('Y') }} PT RPA . Hak cipta dilindungi.
             </small>
         </div>
     </footer>

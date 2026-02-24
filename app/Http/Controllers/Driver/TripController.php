@@ -71,6 +71,11 @@ class TripController extends Controller
             abort(403);
         }
 
+        // Redirect to finish form if trip is approved
+        if ($trip->status === 'approved') {
+            return redirect()->route('driver.trips.finish', $trip->id);
+        }
+
         return view('driver.trips.show', compact('trip'));
     }
 
@@ -96,9 +101,16 @@ class TripController extends Controller
             abort(403);
         }
 
-        if ($trip->status !== 'ongoing') {
+        // Allow approved trips to go directly to finish form
+        if ($trip->status !== 'approved' && $trip->status !== 'ongoing') {
             return redirect()->route('driver.trips.show', $trip)
-                ->with('error', 'Only ongoing trips can be finished.');
+                ->with('error', 'Only approved or ongoing trips can be finished.');
+        }
+
+        // Auto-start the trip if it's approved
+        if ($trip->status === 'approved') {
+            $trip->update(['status' => 'ongoing']);
+            $trip->vehicle->update(['status' => 'in_use']);
         }
 
         return view('driver.trips.finish', compact('trip'));
