@@ -4,6 +4,8 @@
 
 @section('content')
 <div class="container-fluid py-4">
+
+    {{-- === HEADER === --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0"><i class="bi bi-check-circle me-2"></i>Selesai & Review</h2>
         <a href="{{ route('supervisor.dashboard') }}" class="btn btn-outline-secondary">
@@ -11,7 +13,7 @@
         </a>
     </div>
 
-    {{-- Filter Form --}}
+    {{-- === FILTER FORM === --}}
     <form method="GET" class="mb-4">
         <div class="row g-3">
 
@@ -67,67 +69,101 @@
         </div>
     </form>
 
-    {{-- Table --}}
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            @if($trips->count() > 0)
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Driver</th>
-                                <th>Tujuan</th>
-                                <th>Kendaraan</th>
-                                <th>Plat</th>
-                                <th>Jarak Tempuh</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($trips as $trip)
+    {{-- === DESKTOP TABLE (desktop-only) === --}}
+    <div class="desktop-only">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                @if($trips->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>{{ $trip->driver->name ?? '-' }}</td>
-                                    <td>{{ $trip->tujuan }}</td>
-                                    <td>{{ $trip->vehicle->name ?? '-' }}</td>
-                                    <td>{{ $trip->vehicle->plate_number ?? '-' }}</td>
-                                    <td>
-                                        @if($trip->total_km)
-                                            <strong class="text-success">{{ number_format($trip->total_km) }} km</strong>
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $trip->updated_at->format('d M Y') }}</td>
-                                    <td>
-                                        <span class="badge bg-success">Selesai</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('supervisor.trips.show', $trip) }}" 
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye me-1"></i>Lihat
-                                        </a>
-                                    </td>
+                                    <th>Driver</th>
+                                    <th>Tujuan</th>
+                                    <th>Kendaraan</th>
+                                    <th>Plat</th>
+                                    <th>Jarak Tempuh</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach($trips as $trip)
+                                    <tr>
+                                        <td>{{ $trip->driver->name ?? '-' }}</td>
+                                        <td>{{ $trip->tujuan }}</td>
+                                        <td>{{ $trip->vehicle->name ?? '-' }}</td>
+                                        <td>{{ $trip->vehicle->plate_number ?? '-' }}</td>
+                                        <td>
+                                            @if($trip->total_km)
+                                                <strong class="text-success">{{ number_format($trip->total_km) }} km</strong>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $trip->updated_at->format('d M Y') }}</td>
+                                        <td><span class="badge bg-success">Selesai</span></td>
+                                        <td class="text-center">
+                                            <a href="{{ route('supervisor.trips.show', $trip) }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye me-1"></i>Lihat
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div class="mt-3">
-                    {{ $trips->links() }}
-                </div>
-            @else
-                <div class="text-center py-5">
-                    <i class="bi bi-inbox fs-1 text-muted"></i>
-                    <p class="text-muted mt-3">Belum ada perjalanan yang selesai untuk direview.</p>
-                    <a href="{{ route('supervisor.trips.all') }}" class="btn btn-primary">
-                        <i class="bi bi-list-ul me-2"></i>Lihat Semua Perjalanan
-                    </a>
-                </div>
-            @endif
+                    <div class="mt-3">
+                        {{ $trips->links() }}
+                    </div>
+
+                @else
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox fs-1 text-muted"></i>
+                        <p class="text-muted mt-3">Belum ada perjalanan yang selesai untuk direview.</p>
+                        <a href="{{ route('supervisor.trips.all') }}" class="btn btn-primary">
+                            <i class="bi bi-list-ul me-2"></i>Lihat Semua Perjalanan
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
+
+    {{-- === MOBILE CARD LIST (mobile-only) === --}}
+    <div class="mobile-only">
+        @foreach($trips as $trip)
+        <div class="card shadow-sm mb-3 p-3">
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">#{{ $trip->id }}</span>
+                <span class="badge bg-success">Selesai</span>
+            </div>
+
+            <div class="fw-bold">{{ $trip->vehicle->name ?? '-' }}</div>
+            <div class="text-muted">{{ $trip->vehicle->plate_number ?? '-' }}</div>
+
+            <div class="mt-2">
+                <strong>Driver:</strong> {{ $trip->driver->name ?? '-' }}<br>
+                <strong>Tujuan:</strong> {{ $trip->tujuan }}<br>
+                <strong>Tanggal:</strong> {{ $trip->updated_at->format('d M Y') }}<br>
+            </div>
+
+            <a href="{{ route('supervisor.trips.show', $trip) }}" 
+               class="btn btn-warning w-100 mt-3 fw-bold">
+                <i class="bi bi-eye me-1"></i>Lihat Detail
+            </a>
+
+        </div>
+        @endforeach
+
+        <div class="mt-3">
+            {{ $trips->links() }}
+        </div>
+    </div>
+
 </div>
 @endsection

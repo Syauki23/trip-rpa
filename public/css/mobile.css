@@ -783,3 +783,19 @@
         display: none !important;
     }
 }
+.btn-orange {
+    background: #ff7a00;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.btn-orange:hover {
+    background: #e86d00;
+    color: white;
+}
+
+.trip-card-mobile .card {
+    border-radius: 16px;
+}

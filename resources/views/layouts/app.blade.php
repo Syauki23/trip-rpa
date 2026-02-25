@@ -159,7 +159,7 @@
     </div>
     @endauth
 
-    <main class="main-content" style="min-height: calc(100vh - 140px); padding: 24px 0;">
+    <main class="main-content" style="min-height: calc(100vh - 140px); padding: 24px 0 110px 0;">
         <div class="container-fluid px-4">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
