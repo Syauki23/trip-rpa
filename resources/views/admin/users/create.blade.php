@@ -30,13 +30,25 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                               id="username" name="username" value="{{ old('username') }}" 
+                               placeholder="Username akan digenerate otomatis" readonly required>
+                        @error('username')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="text-muted">Username dibuat otomatis dari nama (huruf kecil, spasi diganti titik)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control @error('email') is-invalid @enderror" 
                                id="email" name="email" value="{{ old('email') }}" 
-                               placeholder="contoh@email.com" required>
+                               placeholder="contoh@email.com (opsional)">
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        <small class="text-muted">Email bersifat opsional</small>
                     </div>
 
                     <div class="mb-3">
@@ -80,3 +92,18 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Auto-generate username dari nama
+    document.getElementById('name').addEventListener('input', function() {
+        let value = this.value
+            .toLowerCase()
+            .replace(/[^a-z0-9 ]/g, '') // hapus karakter selain huruf, angka, spasi
+            .replace(/\s+/g, '.'); // ganti spasi dengan titik
+        
+        document.getElementById('username').value = value;
+    });
+</script>
+@endpush
+

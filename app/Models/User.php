@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'role_id',
@@ -52,5 +53,15 @@ class User extends Authenticatable
     public function trips()
     {
         return $this->hasMany(Trip::class, 'driver_id');
+    }
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 }

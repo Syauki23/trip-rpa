@@ -26,9 +26,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Dibuat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -37,7 +37,8 @@
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td><code>{{ $user->username }}</code></td>
+                            <td>{{ $user->email ?? '-' }}</td>
                             <td>
                                 @if($user->role->name === 'admin')
                                     <span class="badge bg-danger">Admin</span>
@@ -47,7 +48,6 @@
                                     <span class="badge bg-info">Driver</span>
                                 @endif
                             </td>
-                            <td>{{ $user->created_at->format('d M Y') }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-primary">
@@ -102,7 +102,10 @@
                         {{ $user->name }}
                     </div>
                     <div class="item-subtitle">
-                        {{ $user->email }}
+                        <code>{{ $user->username }}</code>
+                        @if($user->email)
+                            • {{ $user->email }}
+                        @endif
                     </div>
                 </div>
                 <div>

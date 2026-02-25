@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Admin User',
+            'username' => 'admin',
             'email' => 'admin@pt.com',
             'password' => Hash::make('12345678'),
             'role_id' => $adminRole->id,
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Supervisor User',
+            'username' => 'supervisor',
             'email' => 'supervisor@pt.com',
             'password' => Hash::make('12345678'),
             'role_id' => $supervisorRole->id,
@@ -31,6 +33,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Driver User',
+            'username' => 'driver',
             'email' => 'driver@pt.com',
             'password' => Hash::make('12345678'),
             'role_id' => $driverRole->id,
