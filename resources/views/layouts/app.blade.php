@@ -218,6 +218,11 @@
                 <i class="bi bi-list-ul"></i>
                 <span>Semua</span>
             </a>
+            <a href="{{ route('supervisor.trips.review') }}" 
+                class="bottom-nav-item {{ request()->routeIs('supervisor.trips.review') ? 'active' : '' }}">
+                <i class="bi bi-check2-circle"></i>
+                <span>Review</span>
+            </a>
             <button class="bottom-nav-item" onclick="toggleAccountMenu(event)" type="button">
                 <i class="bi bi-person-circle"></i>
                 <span>Akun</span>
