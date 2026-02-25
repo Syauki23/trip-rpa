@@ -13,11 +13,34 @@ class TripController extends Controller
         // Total trip pending
         $totalPending = Trip::where('status', 'pending')->count();
         
+        // Total trip approved
+        $totalApproved = Trip::where('status', 'approved')->count();
+        
         // Total trip on trip (ongoing)
         $totalOnTrip = Trip::where('status', 'ongoing')->count();
         
         // Total trip selesai
         $totalCompleted = Trip::where('status', 'completed')->count();
+        
+        // Total trip rejected
+        $totalRejected = Trip::where('status', 'rejected')->count();
+        
+        // Data untuk Bar Chart - Status Perjalanan
+        $statusData = [$totalPending, $totalApproved, $totalOnTrip, $totalCompleted, $totalRejected];
+        
+        // Data kendaraan untuk Donut Chart
+        $vehiclesInUse = \App\Models\Vehicle::where('status', 'in_use')->count();
+        $vehiclesAvailable = \App\Models\Vehicle::where('status', 'available')->count();
+        $vehicleData = [$vehiclesInUse, $vehiclesAvailable];
+        
+        // Data perjalanan per hari untuk Line Chart (7 hari terakhir)
+        $dataMingguan = [];
+        $labelMingguan = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $labelMingguan[] = $date->locale('id')->isoFormat('ddd'); // Sen, Sel, Rab, etc
+            $dataMingguan[] = Trip::whereDate('created_at', $date->format('Y-m-d'))->count();
+        }
         
         // 5 pengajuan terbaru
         $recentSubmissions = Trip::with(['driver', 'vehicle'])
@@ -35,8 +58,14 @@ class TripController extends Controller
         
         return view('supervisor.dashboard', compact(
             'totalPending',
+            'totalApproved',
             'totalOnTrip',
             'totalCompleted',
+            'totalRejected',
+            'statusData',
+            'vehicleData',
+            'dataMingguan',
+            'labelMingguan',
             'recentSubmissions',
             'recentCompleted'
         ));
