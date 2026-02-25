@@ -90,14 +90,49 @@ class TripController extends Controller
         return view('supervisor.trips.all', compact('trips'));
     }
     
-    public function review()
+    public function review(Request $request)
     {
-        $trips = Trip::with(['driver', 'vehicle'])
-            ->where('status', 'completed')
-            ->orderBy('updated_at', 'desc')
-            ->paginate(10);
+        $query = Trip::with(['driver', 'vehicle'])
+            ->where('status', 'completed');
         
-        return view('supervisor.trips.review', compact('trips'));
+        // Filter tanggal dari
+        if ($request->filled('date_from')) {
+            $query->whereDate('updated_at', '>=', $request->date_from);
+        }
+        
+        // Filter tanggal sampai
+        if ($request->filled('date_to')) {
+            $query->whereDate('updated_at', '<=', $request->date_to);
+        }
+        
+        // Filter driver
+        if ($request->filled('driver')) {
+            $query->whereHas('driver', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->driver . '%');
+            });
+        }
+        
+        // Filter status (untuk future use jika ada status lain)
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        $trips = $query->orderBy('updated_at', 'desc')->paginate(10);
+        
+        // Untuk dropdown driver
+        $drivers = \App\Models\User::whereHas('role', function($q) {
+            $q->where('name', 'driver');
+        })->orderBy('name')->get();
+        
+        return view('supervisor.trips.review', compact('trips', 'drivers'));
+    }
+    
+    public function exportReview(Request $request)
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\SupervisorTripsExport($request->all()),
+            'perjalanan-selesai-' . date('Y-m-d') . '.xlsx'
+        );
     }
 
     public function index()

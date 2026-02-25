@@ -11,20 +11,63 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+    {{-- Filter Form --}}
+    <form method="GET" class="mb-4">
+        <div class="row g-3">
 
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif>
+            <div class="col-md-3">
+                <label class="form-label">Tanggal Dari</label>
+                <input type="date" name="date_from" class="form-control"
+                       value="{{ request('date_from') }}">
+            </div>
 
+            <div class="col-md-3">
+                <label class="form-label">Tanggal Sampai</label>
+                <input type="date" name="date_to" class="form-control"
+                       value="{{ request('date_to') }}">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Driver</label>
+                <input type="text" name="driver" class="form-control"
+                       placeholder="Nama driver"
+                       value="{{ request('driver') }}">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Semua</option>
+                    <option value="completed" {{ request('status')=='completed' ? 'selected' : '' }}>
+                        Selesai
+                    </option>
+                    <option value="pending" {{ request('status')=='pending' ? 'selected' : '' }}>
+                        Pending
+                    </option>
+                    <option value="ongoing" {{ request('status')=='ongoing' ? 'selected' : '' }}>
+                        Sedang Jalan
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-primary">Filter</button>
+
+            <a href="{{ route('supervisor.trips.review') }}" class="btn btn-secondary">
+                Reset
+            </a>
+
+            <a href="{{ route('supervisor.trips.review.export', request()->all()) }}"
+               class="btn btn-success">
+                <i class="bi bi-file-earmark-excel me-1"></i>
+                Export Excel
+            </a>
+        </div>
+    </form>
+
+    {{-- Table --}}
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             @if($trips->count() > 0)
@@ -57,7 +100,9 @@
                                         @endif
                                     </td>
                                     <td>{{ $trip->updated_at->format('d M Y') }}</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
+                                    <td>
+                                        <span class="badge bg-success">Selesai</span>
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('supervisor.trips.show', $trip) }}" 
                                            class="btn btn-sm btn-outline-primary">

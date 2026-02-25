@@ -34,12 +34,20 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 // Supervisor Routes
+// Supervisor Routes
 Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supervisor.')->group(function () {
     Route::get('dashboard', [SupervisorTripController::class, 'dashboard'])->name('dashboard');
     Route::get('trips', [SupervisorTripController::class, 'index'])->name('trips.index');
     Route::get('trips/pending', [SupervisorTripController::class, 'pending'])->name('trips.pending');
     Route::get('trips/all', [SupervisorTripController::class, 'all'])->name('trips.all');
+
+    // HALAMAN REVIEW
     Route::get('trips/review', [SupervisorTripController::class, 'review'])->name('trips.review');
+
+    // EXPORT EXCEL (INI YG PENTING!)
+    Route::get('trips/review/export', [SupervisorTripController::class, 'exportReview'])
+        ->name('trips.review.export');
+
     Route::get('trips/{trip}', [SupervisorTripController::class, 'show'])->name('trips.show');
     Route::post('trips/{trip}/approve', [SupervisorTripController::class, 'approve'])->name('trips.approve');
     Route::post('trips/{trip}/verify', [SupervisorTripController::class, 'verify'])->name('trips.verify');
