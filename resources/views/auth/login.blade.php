@@ -430,11 +430,12 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card login-card shadow-lg">
-                    <div class="login-header">
-                        <i class="bi bi-truck-front"></i>
-                        <h3 class="mb-0">PT RPA</h3>
-                        <p class="mb-0 mt-2 opacity-90">Masuk ke akun Anda</p>
-                    </div>
+               <div class="login-header text-center">
+    <img src="{{ asset('images/logo2.png') }}" 
+        alt="PT RPA" 
+        style="max-width: 80%; height: auto; margin-bottom: 8px; object-fit: contain;">
+    <p class="mb-0 mt-2 opacity-90">Masuk ke akun Anda</p>
+</div>
                     <div class="card-body p-4">
                         @if($errors->any())
                             <div class="alert alert-danger">

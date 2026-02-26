@@ -74,9 +74,7 @@
                 <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
             </a>
 
-            <a href="{{ route('admin.reports.trips.export-pdf', request()->all()) }}" class="btn btn-danger">
-                <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
-            </a>
+
         </div>
     </div>
 

@@ -28,8 +28,9 @@
     <!-- Desktop Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light desktop-only">
         <div class="container-fluid px-4">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-truck-front"></i> PT RPA
+           <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <img src="{{ asset('images/logo2.png') }}" alt="PT RPA" style="height:32px;">
+               
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -148,8 +149,8 @@
     <!-- Mobile Header -->
     <div class="mobile-header mobile-only">
         <div class="d-flex align-items-center gap-3">
-            <i class="bi bi-truck-front"></i>
-            <h1>PT RPA</h1>
+            <img src="{{ asset('images/logo2.png') }}" alt="PT RPA" style="height:32px;">
+            
         </div>
         <div class="header-actions">
             <button class="btn" onclick="window.location.reload()">
