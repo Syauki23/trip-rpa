@@ -19,12 +19,14 @@
         body {
             background: linear-gradient(135deg, #FFF5F0 0%, #FFEDE5 50%, #FFF9F5 100%);
             min-height: 100vh;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            padding: 16px;
-            overflow: hidden;
+            overflow: auto;
         }
         
         body.dark-mode {
@@ -86,6 +88,7 @@
         .login-card {
             max-width: 380px;
             width: 100%;
+            margin: 0;
             border: none;
             border-radius: 28px;
             overflow: hidden;
@@ -426,9 +429,9 @@
         <i class="bi bi-moon-fill" id="themeIconLogin"></i>
     </button>
     
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+    <div class="container" style="width: 100%; max-width: 100%; margin: 0; padding: 16px;">
+        <div class="row justify-content-center" style="margin: 0;">
+            <div class="col-md-6" style="display: flex; justify-content: center; padding: 0;">
                 <div class="card login-card shadow-lg">
                <div class="login-header text-center">
     <img src="{{ asset('images/logo2.png') }}" 
