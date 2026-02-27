@@ -171,4 +171,98 @@ class TripController extends Controller
 
         return back()->with('success', 'Trip verified successfully.');
     }
+
+    public function create()
+    {
+        $vehicles = \App\Models\Vehicle::where('status', 'available')->get();
+        $drivers = \App\Models\User::whereHas('role', function($q) {
+            $q->where('name', 'driver');
+        })->get();
+        
+        return view('supervisor.trips.create', compact('vehicles', 'drivers'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'driver_id' => 'required|exists:users,id',
+            'vehicle_id' => 'required|exists:vehicles,id',
+            'km_awal' => 'required|integer|min:0',
+            'foto_awal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'tujuan' => 'required|string|max:255',
+            'keperluan' => 'required|string',
+            'jam_out' => 'required|date',
+        ]);
+
+        $fotoAwalPath = $request->file('foto_awal')->store('trips', 'public');
+
+        Trip::create([
+            'driver_id' => $validated['driver_id'],
+            'vehicle_id' => $validated['vehicle_id'],
+            'km_awal' => $validated['km_awal'],
+            'foto_awal' => $fotoAwalPath,
+            'tujuan' => $validated['tujuan'],
+            'keperluan' => $validated['keperluan'],
+            'jam_out' => $validated['jam_out'],
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('supervisor.trips.index')
+            ->with('success', 'Trip created successfully.');
+    }
+
+    public function edit(Trip $trip)
+    {
+        $vehicles = \App\Models\Vehicle::where('status', 'available')
+            ->orWhere('id', $trip->vehicle_id)
+            ->get();
+        $drivers = \App\Models\User::whereHas('role', function($q) {
+            $q->where('name', 'driver');
+        })->get();
+        
+        return view('supervisor.trips.edit', compact('trip', 'vehicles', 'drivers'));
+    }
+
+    public function update(Request $request, Trip $trip)
+    {
+        $validated = $request->validate([
+            'driver_id' => 'required|exists:users,id',
+            'vehicle_id' => 'required|exists:vehicles,id',
+            'km_awal' => 'required|integer|min:0',
+            'foto_awal' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'tujuan' => 'required|string|max:255',
+            'keperluan' => 'required|string',
+            'jam_out' => 'required|date',
+        ]);
+
+        // Handle photo update if new photo is uploaded
+        if ($request->hasFile('foto_awal')) {
+            // Delete old photo
+            if ($trip->foto_awal) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($trip->foto_awal);
+            }
+            $validated['foto_awal'] = $request->file('foto_awal')->store('trips', 'public');
+        }
+
+        $trip->update($validated);
+
+        return redirect()->route('supervisor.trips.show', $trip)
+            ->with('success', 'Trip updated successfully.');
+    }
+
+    public function destroy(Trip $trip)
+    {
+        // Delete photos if exist
+        if ($trip->foto_awal) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($trip->foto_awal);
+        }
+        if ($trip->foto_akhir) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($trip->foto_akhir);
+        }
+
+        $trip->delete();
+
+        return redirect()->route('supervisor.trips.index')
+            ->with('success', 'Trip deleted successfully.');
+    }
 }

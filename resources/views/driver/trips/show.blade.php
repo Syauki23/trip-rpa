@@ -15,7 +15,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="mb-0"><i class="bi bi-file-text"></i> Detail Perjalanan #{{ $trip->id }}</h4>
                 <div>
-                    @if($trip->status === 'ongoing')
+                    @if($trip->status === 'pending')
+                        <a href="{{ route('driver.trips.edit', $trip) }}" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                    @elseif($trip->status === 'ongoing')
                         <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-success">
                             <i class="bi bi-stop-circle"></i> Selesaikan Perjalanan
                         </a>

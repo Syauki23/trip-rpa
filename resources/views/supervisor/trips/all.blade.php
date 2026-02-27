@@ -8,9 +8,14 @@
     {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0"><i class="bi bi-list-ul me-2"></i>Semua Perjalanan</h2>
-        <a href="{{ route('supervisor.dashboard') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-2"></i>Kembali ke Dashboard
-        </a>
+        <div>
+            <a href="{{ route('supervisor.trips.create') }}" class="btn btn-primary me-2">
+                <i class="bi bi-plus-circle me-2"></i>Buat Perjalanan
+            </a>
+            <a href="{{ route('supervisor.dashboard') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Kembali ke Dashboard
+            </a>
+        </div>
     </div>
 
     {{-- ALERT --}}
@@ -75,9 +80,23 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('supervisor.trips.show', $trip) }}" 
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye me-1"></i>Lihat
+                                           class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-eye"></i> Lihat
                                         </a>
+                                        <a href="{{ route('supervisor.trips.edit', $trip) }}" 
+                                           class="btn btn-sm btn-outline-warning me-1">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
+                                              method="POST" 
+                                              class="d-inline"
+                                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -126,11 +145,26 @@
                             <div><strong>Tanggal:</strong> {{ $trip->created_at->format('d M Y') }}</div>
 
                             {{-- Button --}}
-                            <a href="{{ route('supervisor.trips.show', $trip) }}"
-                               class="btn w-100 mt-3"
-                               style="background:#f97316; color:white; border-radius:10px;">
-                                <i class="bi bi-eye me-1"></i> Lihat Detail
-                            </a>
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="{{ route('supervisor.trips.show', $trip) }}"
+                                   class="btn btn-primary flex-fill">
+                                    <i class="bi bi-eye"></i> Lihat
+                                </a>
+                                <a href="{{ route('supervisor.trips.edit', $trip) }}"
+                                   class="btn btn-warning flex-fill">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
+                                      method="POST" 
+                                      class="flex-fill"
+                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger w-100">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
 
                         </div>
                     @endforeach

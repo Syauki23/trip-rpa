@@ -47,6 +47,13 @@
                                     <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-sm btn-outline-success">
                                         <i class="bi bi-check-circle"></i> Selesaikan
                                     </a>
+                                @elseif($trip->status === 'pending')
+                                    <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-eye"></i> Lihat
+                                    </a>
+                                    <a href="{{ route('driver.trips.edit', $trip) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
                                 @else
                                     <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-eye"></i> Lihat
@@ -113,6 +120,13 @@
                 @if($trip->status === 'approved')
                     <a href="{{ route('driver.trips.finish', $trip) }}" class="btn btn-success btn-sm flex-fill" onclick="event.stopPropagation()">
                         <i class="bi bi-check-circle"></i> Selesaikan
+                    </a>
+                @elseif($trip->status === 'pending')
+                    <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-primary btn-sm flex-fill me-2" onclick="event.stopPropagation()">
+                        <i class="bi bi-eye"></i> Lihat
+                    </a>
+                    <a href="{{ route('driver.trips.edit', $trip) }}" class="btn btn-warning btn-sm flex-fill" onclick="event.stopPropagation()">
+                        <i class="bi bi-pencil"></i> Edit
                     </a>
                 @else
                     <a href="{{ route('driver.trips.show', $trip) }}" class="btn btn-primary btn-sm flex-fill" onclick="event.stopPropagation()">

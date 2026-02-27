@@ -106,9 +106,23 @@
                                         <td><span class="badge bg-success">Selesai</span></td>
                                         <td class="text-center">
                                             <a href="{{ route('supervisor.trips.show', $trip) }}" 
-                                               class="btn btn-sm btn-outline-primary">
-                                                <i class="bi bi-eye me-1"></i>Lihat
+                                               class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="bi bi-eye"></i> Lihat
                                             </a>
+                                            <a href="{{ route('supervisor.trips.edit', $trip) }}" 
+                                               class="btn btn-sm btn-outline-warning me-1">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                            <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
+                                                  method="POST" 
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i> Hapus
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -152,10 +166,26 @@
                 <strong>Tanggal:</strong> {{ $trip->updated_at->format('d M Y') }}<br>
             </div>
 
-            <a href="{{ route('supervisor.trips.show', $trip) }}" 
-               class="btn btn-warning w-100 mt-3 fw-bold">
-                <i class="bi bi-eye me-1"></i>Lihat Detail
-            </a>
+            <div class="d-flex gap-2 mt-3">
+                <a href="{{ route('supervisor.trips.show', $trip) }}" 
+                   class="btn btn-primary flex-fill">
+                    <i class="bi bi-eye"></i> Lihat
+                </a>
+                <a href="{{ route('supervisor.trips.edit', $trip) }}" 
+                   class="btn btn-warning flex-fill">
+                    <i class="bi bi-pencil"></i> Edit
+                </a>
+                <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
+                      method="POST" 
+                      class="flex-fill"
+                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-trash"></i> Hapus
+                    </button>
+                </form>
+            </div>
 
         </div>
         @endforeach

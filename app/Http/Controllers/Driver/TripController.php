@@ -79,6 +79,61 @@ class TripController extends Controller
         return view('driver.trips.show', compact('trip'));
     }
 
+    public function edit(Trip $trip)
+    {
+        if ($trip->driver_id !== auth()->id()) {
+            abort(403);
+        }
+
+        // Only allow editing pending trips
+        if ($trip->status !== 'pending') {
+            return redirect()->route('driver.trips.show', $trip)
+                ->with('error', 'Only pending trips can be edited.');
+        }
+
+        $vehicles = Vehicle::where('status', 'available')
+            ->orWhere('id', $trip->vehicle_id)
+            ->get();
+        
+        return view('driver.trips.edit', compact('trip', 'vehicles'));
+    }
+
+    public function update(Request $request, Trip $trip)
+    {
+        if ($trip->driver_id !== auth()->id()) {
+            abort(403);
+        }
+
+        // Only allow updating pending trips
+        if ($trip->status !== 'pending') {
+            return redirect()->route('driver.trips.show', $trip)
+                ->with('error', 'Only pending trips can be updated.');
+        }
+
+        $validated = $request->validate([
+            'vehicle_id' => 'required|exists:vehicles,id',
+            'km_awal' => 'required|integer|min:0',
+            'foto_awal' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'tujuan' => 'required|string|max:255',
+            'keperluan' => 'required|string',
+            'jam_out' => 'required|date',
+        ]);
+
+        // Handle photo update if new photo is uploaded
+        if ($request->hasFile('foto_awal')) {
+            // Delete old photo
+            if ($trip->foto_awal) {
+                Storage::disk('public')->delete($trip->foto_awal);
+            }
+            $validated['foto_awal'] = $request->file('foto_awal')->store('trips', 'public');
+        }
+
+        $trip->update($validated);
+
+        return redirect()->route('driver.trips.show', $trip)
+            ->with('success', 'Trip updated successfully.');
+    }
+
     public function start(Trip $trip)
     {
         if ($trip->driver_id !== auth()->id()) {
@@ -145,5 +200,14 @@ class TripController extends Controller
 
         return redirect()->route('driver.trips.show', $trip)
             ->with('success', 'Trip completed successfully. Waiting for verification.');
+    }
+
+    /**
+     * Driver is NOT allowed to delete trips
+     * This method will always return 403 Forbidden
+     */
+    public function destroy(Trip $trip)
+    {
+        abort(403, 'Drivers are not authorized to delete trips.');
     }
 }

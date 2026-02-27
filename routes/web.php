@@ -34,10 +34,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 // Supervisor Routes
-// Supervisor Routes
 Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supervisor.')->group(function () {
     Route::get('dashboard', [SupervisorTripController::class, 'dashboard'])->name('dashboard');
     Route::get('trips', [SupervisorTripController::class, 'index'])->name('trips.index');
+    Route::get('trips/create', [SupervisorTripController::class, 'create'])->name('trips.create');
+    Route::post('trips', [SupervisorTripController::class, 'store'])->name('trips.store');
     Route::get('trips/pending', [SupervisorTripController::class, 'pending'])->name('trips.pending');
     Route::get('trips/all', [SupervisorTripController::class, 'all'])->name('trips.all');
 
@@ -49,18 +50,25 @@ Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supe
         ->name('trips.review.export');
 
     Route::get('trips/{trip}', [SupervisorTripController::class, 'show'])->name('trips.show');
+    Route::get('trips/{trip}/edit', [SupervisorTripController::class, 'edit'])->name('trips.edit');
+    Route::put('trips/{trip}', [SupervisorTripController::class, 'update'])->name('trips.update');
+    Route::delete('trips/{trip}', [SupervisorTripController::class, 'destroy'])->name('trips.destroy');
     Route::post('trips/{trip}/approve', [SupervisorTripController::class, 'approve'])->name('trips.approve');
     Route::post('trips/{trip}/verify', [SupervisorTripController::class, 'verify'])->name('trips.verify');
 });
 
 // Driver Routes
+// IMPORTANT: Driver ONLY has access to view and edit trips, NO DELETE access
 Route::middleware(['auth', 'role:driver'])->prefix('driver')->name('driver.')->group(function () {
     Route::get('trips', [DriverTripController::class, 'index'])->name('trips.index');
     Route::get('trips/create', [DriverTripController::class, 'create'])->name('trips.create');
     Route::post('trips', [DriverTripController::class, 'store'])->name('trips.store');
     Route::get('trips/history', [DriverTripController::class, 'history'])->name('trips.history');
     Route::get('trips/{trip}', [DriverTripController::class, 'show'])->name('trips.show');
+    Route::get('trips/{trip}/edit', [DriverTripController::class, 'edit'])->name('trips.edit');
+    Route::put('trips/{trip}', [DriverTripController::class, 'update'])->name('trips.update');
     Route::post('trips/{trip}/start', [DriverTripController::class, 'start'])->name('trips.start');
     Route::get('trips/{trip}/finish', [DriverTripController::class, 'finishForm'])->name('trips.finish');
     Route::post('trips/{trip}/finish', [DriverTripController::class, 'finish'])->name('trips.finish.submit');
+    // DELETE route is explicitly NOT defined for driver role
 });
