@@ -26,6 +26,26 @@
                 <td>{{ $trip->keperluan }}</td>
             </tr>
             <tr>
+                <th>Petugas 1</th>
+                <td>
+                    @if($trip->petugas_1)
+                        {{ $trip->petugas_1 }}
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>Petugas 2</th>
+                <td>
+                    @if($trip->petugas_2)
+                        {{ $trip->petugas_2 }}
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
+                </td>
+            </tr>
+            <tr>
                 <th>Status</th>
                 <td>{!! $trip->status_badge !!}</td>
             </tr>

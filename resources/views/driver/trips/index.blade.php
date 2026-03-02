@@ -24,9 +24,13 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Tanggal</th>
                             <th>Kendaraan</th>
-                            <th>Tujuan</th>
-                            <th>Tanggal Keluar</th>
+                            <th>KM Awal</th>
+                            <th>Waktu Berangkat</th>
+                            <th>KM Akhir</th>
+                            <th>Petugas 1</th>
+                            <th>Petugas 2</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -35,12 +39,34 @@
                         @foreach($trips as $trip)
                         <tr>
                             <td>{{ $trip->id }}</td>
+                            <td>{{ $trip->jam_out->format('d M Y') }}</td>
                             <td>
                                 {{ $trip->vehicle->name }}<br>
                                 <small class="text-muted">{{ $trip->vehicle->plate_number }}</small>
                             </td>
-                            <td>{{ $trip->tujuan }}</td>
-                            <td>{{ $trip->jam_out->format('d M Y H:i') }}</td>
+                            <td>{{ number_format($trip->km_awal) }} km</td>
+                            <td>{{ $trip->jam_out->format('H:i') }}</td>
+                            <td>
+                                @if($trip->km_akhir)
+                                    {{ number_format($trip->km_akhir) }} km
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($trip->petugas_1)
+                                    {{ $trip->petugas_1 }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($trip->petugas_2)
+                                    {{ $trip->petugas_2 }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
                             <td>{!! $trip->status_badge !!}</td>
                             <td>
                                 @if($trip->status === 'approved')
@@ -89,11 +115,11 @@
             <div class="item-header">
                 <div>
                     <div class="item-title">
-                        <i class="bi bi-geo-alt-fill text-danger me-1"></i>
-                        {{ $trip->tujuan }}
+                        <i class="bi bi-car-front-fill me-1"></i>
+                        {{ $trip->vehicle->name }}
                     </div>
                     <div class="item-subtitle">
-                        {{ $trip->vehicle->name }} - {{ $trip->vehicle->plate_number }}
+                        {{ $trip->vehicle->plate_number }}
                     </div>
                 </div>
                 <div>
@@ -103,6 +129,10 @@
             
             <div class="item-meta">
                 <div class="meta-item">
+                    <i class="bi bi-hash"></i>
+                    <span>ID: {{ $trip->id }}</span>
+                </div>
+                <div class="meta-item">
                     <i class="bi bi-calendar3"></i>
                     <span>{{ $trip->jam_out->format('d M Y') }}</span>
                 </div>
@@ -110,9 +140,30 @@
                     <i class="bi bi-clock"></i>
                     <span>{{ $trip->jam_out->format('H:i') }}</span>
                 </div>
-                <div class="meta-item">
-                    <i class="bi bi-hash"></i>
-                    <span>ID: {{ $trip->id }}</span>
+            </div>
+
+            <div class="mt-2">
+                <div><strong>KM Awal:</strong> {{ number_format($trip->km_awal) }} km</div>
+                <div><strong>KM Akhir:</strong> 
+                    @if($trip->km_akhir)
+                        {{ number_format($trip->km_akhir) }} km
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
+                </div>
+                <div><strong>Petugas 1:</strong> 
+                    @if($trip->petugas_1)
+                        {{ $trip->petugas_1 }}
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
+                </div>
+                <div><strong>Petugas 2:</strong> 
+                    @if($trip->petugas_2)
+                        {{ $trip->petugas_2 }}
+                    @else
+                        <span class="text-muted">-</span>
+                    @endif
                 </div>
             </div>
             

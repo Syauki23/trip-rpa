@@ -82,6 +82,32 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="petugas_1" class="form-label">Petugas 1</label>
+                    <input type="text" 
+                           class="form-control @error('petugas_1') is-invalid @enderror" 
+                           id="petugas_1" 
+                           name="petugas_1" 
+                           value="{{ old('petugas_1') }}"
+                           placeholder="Nama petugas yang ikut">
+                    @error('petugas_1')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="petugas_2" class="form-label">Petugas 2</label>
+                    <input type="text" 
+                           class="form-control @error('petugas_2') is-invalid @enderror" 
+                           id="petugas_2" 
+                           name="petugas_2" 
+                           value="{{ old('petugas_2') }}"
+                           placeholder="Nama petugas yang ikut">
+                    @error('petugas_2')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label for="km_awal" class="form-label">KM Awal <span class="text-danger">*</span></label>
                     <input type="number" 
                            class="form-control @error('km_awal') is-invalid @enderror" 

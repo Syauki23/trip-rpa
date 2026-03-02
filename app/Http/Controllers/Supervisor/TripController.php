@@ -191,6 +191,8 @@ class TripController extends Controller
             'foto_awal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'tujuan' => 'required|string|max:255',
             'keperluan' => 'required|string',
+            'petugas_1' => 'nullable|string|max:255',
+            'petugas_2' => 'nullable|string|max:255',
             'jam_out' => 'required|date',
         ]);
 
@@ -203,6 +205,8 @@ class TripController extends Controller
             'foto_awal' => $fotoAwalPath,
             'tujuan' => $validated['tujuan'],
             'keperluan' => $validated['keperluan'],
+            'petugas_1' => $validated['petugas_1'] ?? null,
+            'petugas_2' => $validated['petugas_2'] ?? null,
             'jam_out' => $validated['jam_out'],
             'status' => 'pending',
         ]);
@@ -232,6 +236,8 @@ class TripController extends Controller
             'foto_awal' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tujuan' => 'required|string|max:255',
             'keperluan' => 'required|string',
+            'petugas_1' => 'nullable|string|max:255',
+            'petugas_2' => 'nullable|string|max:255',
             'jam_out' => 'required|date',
         ]);
 
