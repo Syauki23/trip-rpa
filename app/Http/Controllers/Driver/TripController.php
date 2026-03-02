@@ -45,10 +45,15 @@ class TripController extends Controller
             'foto_awal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'tujuan' => 'required|string|max:255',
             'keperluan' => 'required|string',
-            'jam_out' => 'required|date',
+            'petugas_1' => 'required|string|max:255',
+            'tanggal_berangkat' => 'required|date',
+            'jam_berangkat' => 'required|date_format:H:i',
         ]);
 
         $fotoAwalPath = $request->file('foto_awal')->store('trips', 'public');
+
+        // Gabungkan tanggal dan jam menjadi datetime
+        $jamOut = $validated['tanggal_berangkat'] . ' ' . $validated['jam_berangkat'];
 
         Trip::create([
             'driver_id' => auth()->id(),
@@ -57,7 +62,8 @@ class TripController extends Controller
             'foto_awal' => $fotoAwalPath,
             'tujuan' => $validated['tujuan'],
             'keperluan' => $validated['keperluan'],
-            'jam_out' => $validated['jam_out'],
+            'petugas_1' => $validated['petugas_1'],
+            'jam_out' => $jamOut,
             'status' => 'pending',
         ]);
 
@@ -116,7 +122,9 @@ class TripController extends Controller
             'foto_awal' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tujuan' => 'required|string|max:255',
             'keperluan' => 'required|string',
-            'jam_out' => 'required|date',
+            'petugas_1' => 'required|string|max:255',
+            'tanggal_berangkat' => 'required|date',
+            'jam_berangkat' => 'required|date_format:H:i',
         ]);
 
         // Handle photo update if new photo is uploaded
@@ -127,6 +135,12 @@ class TripController extends Controller
             }
             $validated['foto_awal'] = $request->file('foto_awal')->store('trips', 'public');
         }
+
+        // Gabungkan tanggal dan jam menjadi datetime
+        $validated['jam_out'] = $validated['tanggal_berangkat'] . ' ' . $validated['jam_berangkat'];
+
+        // Remove temporary fields
+        unset($validated['tanggal_berangkat'], $validated['jam_berangkat']);
 
         $trip->update($validated);
 

@@ -56,6 +56,16 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="petugas_1" class="form-label">Petugas 1 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('petugas_1') is-invalid @enderror" 
+                               id="petugas_1" name="petugas_1" value="{{ old('petugas_1') }}" 
+                               placeholder="Nama petugas yang jaga" required>
+                        @error('petugas_1')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="km_awal_display" class="form-label">Odometer Awal (KM) <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('km_awal') is-invalid @enderror" 
                                id="km_awal_display" 
@@ -68,12 +78,25 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="jam_out" class="form-label">Waktu Berangkat <span class="text-danger">*</span></label>
-                        <input type="datetime-local" class="form-control @error('jam_out') is-invalid @enderror" 
-                               id="jam_out" name="jam_out" value="{{ old('jam_out') }}" required>
-                        @error('jam_out')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <label class="form-label">Waktu Berangkat <span class="text-danger">*</span></label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="tanggal_berangkat" class="form-label small">Tanggal</label>
+                                <input type="date" class="form-control @error('tanggal_berangkat') is-invalid @enderror" 
+                                       id="tanggal_berangkat" name="tanggal_berangkat" value="{{ old('tanggal_berangkat') }}" required>
+                                @error('tanggal_berangkat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jam_berangkat" class="form-label small">Jam</label>
+                                <input type="time" class="form-control @error('jam_berangkat') is-invalid @enderror" 
+                                       id="jam_berangkat" name="jam_berangkat" value="{{ old('jam_berangkat') }}" required>
+                                @error('jam_berangkat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">

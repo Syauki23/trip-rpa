@@ -19,6 +19,7 @@ class Trip extends Model
         'foto_akhir',
         'tujuan',
         'keperluan',
+        'petugas_1',
         'jam_out',
         'jam_in',
         'status'
