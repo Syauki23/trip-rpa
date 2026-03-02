@@ -39,10 +39,14 @@
                         <thead class="table-light">
                             <tr>
                                 <th>ID</th>
+                                <th>Tanggal</th>
                                 <th>Driver</th>
                                 <th>Kendaraan</th>
+                                <th>KM Awal</th>
+                                <th>Waktu Berangkat</th>
                                 <th>Tujuan</th>
-                                <th>Tanggal</th>
+                                <th>KM Akhir</th>
+                                <th>Waktu Kembali</th>
                                 <th>Status</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -51,13 +55,29 @@
                             @foreach($trips as $trip)
                                 <tr>
                                     <td><span class="badge bg-secondary">#{{ $trip->id }}</span></td>
+                                    <td>{{ $trip->jam_out->format('d M Y') }}</td>
                                     <td>{{ $trip->driver->name ?? '-' }}</td>
                                     <td>
                                         <div class="fw-semibold">{{ $trip->vehicle->name ?? '-' }}</div>
                                         <small class="text-muted">{{ $trip->vehicle->plate_number ?? '-' }}</small>
                                     </td>
+                                    <td>{{ number_format($trip->km_awal) }} km</td>
+                                    <td>{{ $trip->jam_out->format('H:i') }}</td>
                                     <td>{{ $trip->tujuan }}</td>
-                                    <td>{{ $trip->created_at->format('d M Y H:i') }}</td>
+                                    <td>
+                                        @if($trip->km_akhir)
+                                            {{ number_format($trip->km_akhir) }} km
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($trip->jam_in)
+                                            {{ $trip->jam_in->format('d M Y H:i') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <span class="badge bg-warning text-dark">Menunggu</span>
                                     </td>
@@ -109,7 +129,23 @@
 
                             <div><strong>Driver:</strong> {{ $trip->driver->name }}</div>
                             <div><strong>Tujuan:</strong> {{ $trip->tujuan }}</div>
-                            <div><strong>Tanggal:</strong> {{ $trip->created_at->format('d M Y H:i') }}</div>
+                            <div><strong>Tanggal:</strong> {{ $trip->jam_out->format('d M Y') }}</div>
+                            <div><strong>Waktu Berangkat:</strong> {{ $trip->jam_out->format('H:i') }}</div>
+                            <div><strong>KM Awal:</strong> {{ number_format($trip->km_awal) }} km</div>
+                            <div><strong>KM Akhir:</strong> 
+                                @if($trip->km_akhir)
+                                    {{ number_format($trip->km_akhir) }} km
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
+                            <div><strong>Waktu Kembali:</strong> 
+                                @if($trip->jam_in)
+                                    {{ $trip->jam_in->format('d M Y H:i') }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
 
                             <div class="d-flex gap-2 mt-3">
                                 <a href="{{ route('supervisor.trips.show', $trip) }}"
