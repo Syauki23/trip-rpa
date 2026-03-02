@@ -21,51 +21,26 @@ class SupervisorTripsExport implements FromQuery, WithHeadings, WithMapping, Wit
 
     public function query()
     {
-        $query = Trip::with(['driver', 'vehicle'])
-            ->where('status', 'completed');
-
-        // Filter tanggal dari (match controller)
-        if (!empty($this->filters['date_from'])) {
-            $query->whereDate('updated_at', '>=', $this->filters['date_from']);
-        }
-
-        // Filter tanggal sampai
-        if (!empty($this->filters['date_to'])) {
-            $query->whereDate('updated_at', '<=', $this->filters['date_to']);
-        }
-
-        // Filter driver
-        if (!empty($this->filters['driver'])) {
-            $driver = $this->filters['driver'];
-            $query->whereHas('driver', function($q) use ($driver) {
-                $q->where('name', 'like', "%$driver%");
-            });
-        }
-
-        // Filter status
-        if (!empty($this->filters['status'])) {
-            $query->where('status', $this->filters['status']);
-        }
-
-        return $query->orderBy('updated_at', 'desc');
+        // Ambil SEMUA data trip tanpa filter
+        return Trip::with(['driver', 'vehicle'])
+            ->orderBy('jam_out', 'desc');
     }
 
     public function headings(): array
     {
         return [
             'ID',
-            'Driver',
+            'Tanggal',
             'Kendaraan',
-            'Plat Nomor',
+            'Nopol',
+            'KM Awal',
+            'Jam Keluar',
             'Tujuan',
             'Keperluan',
-            'KM Awal',
             'KM Akhir',
-            'Total KM',
-            'Jam Keluar',
-            'Jam Masuk',
-            'Status',
-            'Tanggal Dibuat'
+            'Jam Kembali',
+            'Petugas 1',
+            'Petugas 2',
         ];
     }
 
@@ -73,18 +48,17 @@ class SupervisorTripsExport implements FromQuery, WithHeadings, WithMapping, Wit
     {
         return [
             $trip->id,
-            $trip->driver->name ?? '-',
+            $trip->jam_out ? $trip->jam_out->format('d/m/Y') : '-',
             $trip->vehicle->name ?? '-',
             $trip->vehicle->plate_number ?? '-',
-            $trip->tujuan,
-            $trip->keperluan,
-            $trip->km_awal,
+            $trip->km_awal ?? '-',
+            $trip->jam_out ? $trip->jam_out->format('H:i') : '-',
+            $trip->tujuan ?? '-',
+            $trip->keperluan ?? '-',
             $trip->km_akhir ?? '-',
-            $trip->km_akhir ? ($trip->km_akhir - $trip->km_awal) : '-',
-            $trip->jam_out ? $trip->jam_out->format('d/m/Y H:i') : '-',
-            $trip->jam_in ? $trip->jam_in->format('d/m/Y H:i') : '-',
-            ucfirst($trip->status),
-            $trip->created_at->format('d/m/Y H:i'),
+            $trip->jam_in ? $trip->jam_in->format('H:i') : '-',
+            $trip->petugas_1 ?? '-',
+            $trip->petugas_2 ?? '-',
         ];
     }
 
