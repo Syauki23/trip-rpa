@@ -64,22 +64,23 @@ class TripController extends Controller
             'keperluan' => $validated['keperluan'],
             'petugas_1' => $validated['petugas_1'],
             'jam_out' => $jamOut,
-            'status' => 'pending',
+            'status' => 'ongoing',
         ]);
 
+        // Set vehicle status to in_use
+        $vehicle = \App\Models\Vehicle::find($validated['vehicle_id']);
+        if ($vehicle) {
+            $vehicle->update(['status' => 'in_use']);
+        }
+
         return redirect()->route('driver.trips.index')
-            ->with('success', 'Trip created successfully. Waiting for approval.');
+            ->with('success', 'Trip created successfully and started.');
     }
 
     public function show(Trip $trip)
     {
         if ($trip->driver_id !== auth()->id()) {
             abort(403);
-        }
-
-        // Redirect to finish form if trip is approved
-        if ($trip->status === 'approved') {
-            return redirect()->route('driver.trips.finish', $trip->id);
         }
 
         return view('driver.trips.show', compact('trip'));
@@ -91,10 +92,10 @@ class TripController extends Controller
             abort(403);
         }
 
-        // Only allow editing pending trips
-        if ($trip->status !== 'pending') {
+        // Only allow editing ongoing trips
+        if ($trip->status !== 'ongoing') {
             return redirect()->route('driver.trips.show', $trip)
-                ->with('error', 'Only pending trips can be edited.');
+                ->with('error', 'Only ongoing trips can be edited.');
         }
 
         $vehicles = Vehicle::where('status', 'available')
@@ -110,10 +111,10 @@ class TripController extends Controller
             abort(403);
         }
 
-        // Only allow updating pending trips
-        if ($trip->status !== 'pending') {
+        // Only allow updating ongoing trips
+        if ($trip->status !== 'ongoing') {
             return redirect()->route('driver.trips.show', $trip)
-                ->with('error', 'Only pending trips can be updated.');
+                ->with('error', 'Only ongoing trips can be updated.');
         }
 
         $validated = $request->validate([
@@ -148,38 +149,16 @@ class TripController extends Controller
             ->with('success', 'Trip updated successfully.');
     }
 
-    public function start(Trip $trip)
-    {
-        if ($trip->driver_id !== auth()->id()) {
-            abort(403);
-        }
-
-        if ($trip->status !== 'approved') {
-            return back()->with('error', 'Only approved trips can be started.');
-        }
-
-        $trip->update(['status' => 'ongoing']);
-        $trip->vehicle->update(['status' => 'in_use']);
-
-        return back()->with('success', 'Trip started successfully.');
-    }
-
     public function finishForm(Trip $trip)
     {
         if ($trip->driver_id !== auth()->id()) {
             abort(403);
         }
 
-        // Allow approved trips to go directly to finish form
-        if ($trip->status !== 'approved' && $trip->status !== 'ongoing') {
+        // Only allow finishing ongoing trips
+        if ($trip->status !== 'ongoing') {
             return redirect()->route('driver.trips.show', $trip)
-                ->with('error', 'Only approved or ongoing trips can be finished.');
-        }
-
-        // Auto-start the trip if it's approved
-        if ($trip->status === 'approved') {
-            $trip->update(['status' => 'ongoing']);
-            $trip->vehicle->update(['status' => 'in_use']);
+                ->with('error', 'Only ongoing trips can be finished.');
         }
 
         return view('driver.trips.finish', compact('trip'));

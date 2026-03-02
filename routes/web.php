@@ -53,7 +53,6 @@ Route::middleware(['auth', 'role:supervisor'])->prefix('supervisor')->name('supe
     Route::get('trips/{trip}/edit', [SupervisorTripController::class, 'edit'])->name('trips.edit');
     Route::put('trips/{trip}', [SupervisorTripController::class, 'update'])->name('trips.update');
     Route::delete('trips/{trip}', [SupervisorTripController::class, 'destroy'])->name('trips.destroy');
-    Route::post('trips/{trip}/approve', [SupervisorTripController::class, 'approve'])->name('trips.approve');
     Route::post('trips/{trip}/verify', [SupervisorTripController::class, 'verify'])->name('trips.verify');
 });
 
@@ -67,7 +66,6 @@ Route::middleware(['auth', 'role:driver'])->prefix('driver')->name('driver.')->g
     Route::get('trips/{trip}', [DriverTripController::class, 'show'])->name('trips.show');
     Route::get('trips/{trip}/edit', [DriverTripController::class, 'edit'])->name('trips.edit');
     Route::put('trips/{trip}', [DriverTripController::class, 'update'])->name('trips.update');
-    Route::post('trips/{trip}/start', [DriverTripController::class, 'start'])->name('trips.start');
     Route::get('trips/{trip}/finish', [DriverTripController::class, 'finishForm'])->name('trips.finish');
     Route::post('trips/{trip}/finish', [DriverTripController::class, 'finish'])->name('trips.finish.submit');
     // DELETE route is explicitly NOT defined for driver role

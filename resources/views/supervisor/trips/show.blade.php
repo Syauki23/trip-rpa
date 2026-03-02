@@ -28,15 +28,7 @@
                             <i class="bi bi-trash"></i> Hapus
                         </button>
                     </form>
-                    @if($trip->status === 'pending')
-                        <form action="{{ route('supervisor.trips.approve', $trip) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-success" 
-                                    onclick="return confirm('Setujui perjalanan ini?')">
-                                <i class="bi bi-check-circle"></i> Setujui
-                            </button>
-                        </form>
-                    @elseif($trip->status === 'completed')
+                    @if($trip->status === 'completed')
                         <form action="{{ route('supervisor.trips.verify', $trip) }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-dark" 

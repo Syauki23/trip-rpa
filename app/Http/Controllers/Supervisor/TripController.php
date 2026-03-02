@@ -150,17 +150,6 @@ class TripController extends Controller
         return view('supervisor.trips.show', compact('trip'));
     }
 
-    public function approve(Trip $trip)
-    {
-        if ($trip->status !== 'pending') {
-            return back()->with('error', 'Only pending trips can be approved.');
-        }
-
-        $trip->update(['status' => 'approved']);
-
-        return back()->with('success', 'Trip approved successfully.');
-    }
-
     public function verify(Trip $trip)
     {
         if ($trip->status !== 'completed') {
