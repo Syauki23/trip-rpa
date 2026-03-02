@@ -63,7 +63,7 @@
                                             <span class="text-muted">-</span>
                                         @endif
                                     </td>
-                                    <td>{{ $trip->driver->name ?? '-' }}</td>
+                                    <td>{{ $trip->driver_name ?? '-' }}</td>
                                     <td>
                                         <div class="fw-semibold">{{ $trip->vehicle->name }}</div>
                                         <small class="text-muted">{{ $trip->vehicle->plate_number }}</small>
@@ -138,7 +138,7 @@
                             <div class="text-muted mb-2">{{ $trip->vehicle->plate_number }}</div>
 
                             {{-- Detail --}}
-                            <div><strong>Driver:</strong> {{ $trip->driver->name ?? '-' }}</div>
+                            <div><strong>Driver:</strong> {{ $trip->driver_name ?? '-' }}</div>
                             <div><strong>Tujuan:</strong> {{ $trip->tujuan }}</div>
                             <div>
                                 <strong>Tanggal:</strong> 

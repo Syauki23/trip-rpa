@@ -20,6 +20,16 @@
                     @csrf
 
                     <div class="mb-3">
+                        <label for="driver_name" class="form-label">Nama Sopir <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('driver_name') is-invalid @enderror" 
+                               id="driver_name" name="driver_name" value="{{ old('driver_name') }}" 
+                               placeholder="Nama sopir yang mengendarai" required>
+                        @error('driver_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="vehicle_id" class="form-label">Kendaraan <span class="text-danger">*</span></label>
                         <select class="form-select @error('vehicle_id') is-invalid @enderror" 
                                 id="vehicle_id" name="vehicle_id" required>

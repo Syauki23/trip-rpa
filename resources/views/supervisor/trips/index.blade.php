@@ -37,7 +37,7 @@
                         @foreach($trips as $trip)
                         <tr>
                             <td>{{ $trip->id }}</td>
-                            <td>{{ $trip->driver->name }}</td>
+                            <td>{{ $trip->driver_name ?? '-' }}</td>
                             <td>
                                 {{ $trip->vehicle->name }}<br>
                                 <small class="text-muted">{{ $trip->vehicle->plate_number }}</small>
@@ -93,7 +93,7 @@
                         {{ $trip->tujuan }}
                     </div>
                     <div class="item-subtitle">
-                        Driver: {{ $trip->driver->name }}
+                        Driver: {{ $trip->driver_name ?? '-' }}
                     </div>
                 </div>
                 <div>

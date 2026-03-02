@@ -61,7 +61,7 @@
                                 <tr>
                                     <td><span class="badge bg-secondary">#{{ $trip->id }}</span></td>
                                     <td>{{ $trip->jam_out->format('d M Y') }}</td>
-                                    <td>{{ $trip->driver->name ?? '-' }}</td>
+                                    <td>{{ $trip->driver_name ?? '-' }}</td>
                                     <td>
                                         <div class="fw-semibold">{{ $trip->vehicle->name ?? '-' }}</div>
                                         <small class="text-muted">{{ $trip->vehicle->plate_number ?? '-' }}</small>
@@ -160,7 +160,7 @@
                             </div>
 
                             {{-- Info --}}
-                            <div><strong>Driver:</strong> {{ $trip->driver->name }}</div>
+                            <div><strong>Driver:</strong> {{ $trip->driver_name ?? '-' }}</div>
                             <div><strong>Tujuan:</strong> {{ $trip->tujuan }}</div>
                             <div><strong>Tanggal:</strong> {{ $trip->jam_out->format('d M Y') }}</div>
                             <div><strong>Waktu Berangkat:</strong> {{ $trip->jam_out->format('H:i') }}</div>

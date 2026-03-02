@@ -12,6 +12,7 @@ class Trip extends Model
 
     protected $fillable = [
         'driver_id',
+        'driver_name',
         'vehicle_id',
         'km_awal',
         'km_akhir',

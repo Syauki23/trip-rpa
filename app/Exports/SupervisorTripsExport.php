@@ -30,6 +30,7 @@ class SupervisorTripsExport implements FromQuery, WithHeadings, WithMapping, Wit
     {
         return [
             'ID',
+            'Nama Sopir',
             'Tanggal',
             'Kendaraan',
             'Nopol',
@@ -48,6 +49,7 @@ class SupervisorTripsExport implements FromQuery, WithHeadings, WithMapping, Wit
     {
         return [
             $trip->id,
+            $trip->driver_name ?? '-',
             $trip->jam_out ? $trip->jam_out->format('d/m/Y') : '-',
             $trip->vehicle->name ?? '-',
             $trip->vehicle->plate_number ?? '-',

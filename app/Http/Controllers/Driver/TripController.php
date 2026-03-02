@@ -40,6 +40,7 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'driver_name' => 'required|string|max:255',
             'vehicle_id' => 'required|exists:vehicles,id',
             'km_awal' => 'required|integer|min:0',
             'foto_awal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -57,6 +58,7 @@ class TripController extends Controller
 
         Trip::create([
             'driver_id' => auth()->id(),
+            'driver_name' => $validated['driver_name'],
             'vehicle_id' => $validated['vehicle_id'],
             'km_awal' => $validated['km_awal'],
             'foto_awal' => $fotoAwalPath,
@@ -118,6 +120,7 @@ class TripController extends Controller
         }
 
         $validated = $request->validate([
+            'driver_name' => 'required|string|max:255',
             'vehicle_id' => 'required|exists:vehicles,id',
             'km_awal' => 'required|integer|min:0',
             'foto_awal' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',

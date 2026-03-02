@@ -7,8 +7,12 @@
                 <td>#{{ $trip->id }}</td>
             </tr>
             <tr>
-                <th>Driver</th>
-                <td>{{ $trip->driver->name }}</td>
+                <th>Nama Sopir</th>
+                <td>{{ $trip->driver_name ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Input By</th>
+                <td>{{ $trip->driver->name ?? '-' }}</td>
             </tr>
             <tr>
                 <th>Kendaraan</th>

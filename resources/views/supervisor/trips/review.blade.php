@@ -91,7 +91,7 @@
                             <tbody>
                                 @foreach($trips as $trip)
                                     <tr>
-                                        <td>{{ $trip->driver->name ?? '-' }}</td>
+                                        <td>{{ $trip->driver_name ?? '-' }}</td>
                                         <td>{{ $trip->tujuan }}</td>
                                         <td>{{ $trip->vehicle->name ?? '-' }}</td>
                                         <td>{{ $trip->vehicle->plate_number ?? '-' }}</td>
@@ -161,7 +161,7 @@
             <div class="text-muted">{{ $trip->vehicle->plate_number ?? '-' }}</div>
 
             <div class="mt-2">
-                <strong>Driver:</strong> {{ $trip->driver->name ?? '-' }}<br>
+                <strong>Driver:</strong> {{ $trip->driver_name ?? '-' }}<br>
                 <strong>Tujuan:</strong> {{ $trip->tujuan }}<br>
                 <strong>Tanggal:</strong> {{ $trip->updated_at->format('d M Y') }}<br>
             </div>
