@@ -198,15 +198,21 @@ class TripController extends Controller
         $validated = $request->validate([
             'km_akhir' => 'required|integer|min:' . $trip->km_awal,
             'foto_akhir' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'jam_in' => 'required|date|after:' . $trip->jam_out,
+            'petugas_2' => 'required|string|max:255',
+            'tanggal_kembali' => 'required|date',
+            'jam_kembali' => 'required|date_format:H:i',
         ]);
 
         $fotoAkhirPath = $request->file('foto_akhir')->store('trips', 'public');
 
+        // Gabungkan tanggal dan jam menjadi datetime
+        $jamIn = $validated['tanggal_kembali'] . ' ' . $validated['jam_kembali'];
+
         $trip->update([
             'km_akhir' => $validated['km_akhir'],
             'foto_akhir' => $fotoAkhirPath,
-            'jam_in' => $validated['jam_in'],
+            'petugas_2' => $validated['petugas_2'],
+            'jam_in' => $jamIn,
             'status' => 'completed',
         ]);
 

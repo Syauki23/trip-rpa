@@ -64,7 +64,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="petugas_1" class="form-label">Petugas 1 <span class="text-danger">*</span></label>
+                <label for="petugas_1" class="form-label">Petugas  <span class="text-danger">*</span></label>
                 <input type="text" 
                        class="form-control @error('petugas_1') is-invalid @enderror" 
                        id="petugas_1" 

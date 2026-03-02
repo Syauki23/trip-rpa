@@ -36,13 +36,44 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="jam_in" class="form-label">Waktu Kembali <span class="text-danger">*</span></label>
-                        <input type="datetime-local" class="form-control @error('jam_in') is-invalid @enderror" 
-                               id="jam_in" name="jam_in" value="{{ old('jam_in') }}" required>
-                        <small class="text-muted">Berangkat: {{ $trip->jam_out->format('d M Y H:i') }}</small>
-                        @error('jam_in')
+                        <label for="petugas_2" class="form-label">Petugas <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('petugas_2') is-invalid @enderror" 
+                               id="petugas_2" name="petugas_2" value="{{ old('petugas_2', $trip->petugas_2) }}" 
+                               placeholder="Nama petugas yang jaga" required>
+                        @error('petugas_2')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Waktu Kembali <span class="text-danger">*</span></label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="tanggal_kembali" class="form-label small">Tanggal</label>
+                                <input type="date" 
+                                       class="form-control @error('tanggal_kembali') is-invalid @enderror" 
+                                       id="tanggal_kembali" 
+                                       name="tanggal_kembali" 
+                                       value="{{ old('tanggal_kembali', $trip->jam_in ? $trip->jam_in->format('Y-m-d') : '') }}"
+                                       required>
+                                @error('tanggal_kembali')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jam_kembali" class="form-label small">Jam</label>
+                                <input type="time" 
+                                       class="form-control @error('jam_kembali') is-invalid @enderror" 
+                                       id="jam_kembali" 
+                                       name="jam_kembali" 
+                                       value="{{ old('jam_kembali', $trip->jam_in ? $trip->jam_in->format('H:i') : '') }}"
+                                       required>
+                                @error('jam_kembali')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <small class="text-muted">Berangkat: {{ $trip->jam_out->format('d M Y H:i') }}</small>
                     </div>
 
                     <div class="mb-3">

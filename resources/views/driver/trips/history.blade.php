@@ -39,9 +39,14 @@
                         <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Kendaraan</th>
-                                <th>Tujuan</th>
                                 <th>Tanggal</th>
+                                <th>Driver</th>
+                                <th>Kendaraan</th>
+                                <th>KM Awal</th>
+                                <th>Waktu Berangkat</th>
+                                <th>Tujuan</th>
+                                <th>KM Akhir</th>
+                                <th>Waktu Kembali</th>
                                 <th>Status</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -52,13 +57,36 @@
                                 <tr>
                                     <td><span class="badge bg-secondary">#{{ $trip->id }}</span></td>
                                     <td>
+                                        @if($trip->jam_out)
+                                            {{ $trip->jam_out->format('d M Y') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $trip->driver->name ?? '-' }}</td>
+                                    <td>
                                         <div class="fw-semibold">{{ $trip->vehicle->name }}</div>
                                         <small class="text-muted">{{ $trip->vehicle->plate_number }}</small>
                                     </td>
-                                    <td>{{ $trip->tujuan }}</td>
+                                    <td>{{ number_format($trip->km_awal) }} km</td>
                                     <td>
                                         @if($trip->jam_out)
-                                            {{ $trip->jam_out->format('d M Y') }}
+                                            {{ $trip->jam_out->format('H:i') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $trip->tujuan }}</td>
+                                    <td>
+                                        @if($trip->km_akhir)
+                                            {{ number_format($trip->km_akhir) }} km
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($trip->jam_in)
+                                            {{ $trip->jam_in->format('H:i') }}
                                         @else
                                             <span class="text-muted">-</span>
                                         @endif
@@ -110,11 +138,37 @@
                             <div class="text-muted mb-2">{{ $trip->vehicle->plate_number }}</div>
 
                             {{-- Detail --}}
+                            <div><strong>Driver:</strong> {{ $trip->driver->name ?? '-' }}</div>
                             <div><strong>Tujuan:</strong> {{ $trip->tujuan }}</div>
                             <div>
                                 <strong>Tanggal:</strong> 
                                 @if($trip->jam_out)
                                     {{ $trip->jam_out->format('d M Y') }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
+                            <div>
+                                <strong>Waktu Berangkat:</strong> 
+                                @if($trip->jam_out)
+                                    {{ $trip->jam_out->format('H:i') }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
+                            <div><strong>KM Awal:</strong> {{ number_format($trip->km_awal) }} km</div>
+                            <div>
+                                <strong>KM Akhir:</strong> 
+                                @if($trip->km_akhir)
+                                    {{ number_format($trip->km_akhir) }} km
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
+                            <div>
+                                <strong>Waktu Kembali:</strong> 
+                                @if($trip->jam_in)
+                                    {{ $trip->jam_in->format('H:i') }}
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
