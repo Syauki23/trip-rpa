@@ -182,24 +182,26 @@
 
                             {{-- Button --}}
                             <div class="d-flex gap-2 mt-3">
-                                <a href="{{ route('supervisor.trips.show', $trip) }}"
-                                   class="btn btn-primary flex-fill">
-                                    <i class="bi bi-eye"></i> Lihat
-                                </a>
-                                <a href="{{ route('supervisor.trips.edit', $trip) }}"
-                                   class="btn btn-warning flex-fill">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
-                                      method="POST" 
-                                      class="flex-fill"
-                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger w-100">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </button>
-                                </form>
+                                <div class="actions">
+                                    <a href="{{ route('supervisor.trips.show', $trip) }}"
+                                       class="btn btn-primary">
+                                        <i class="bi bi-eye"></i> Lihat
+                                    </a>
+                                    <a href="{{ route('supervisor.trips.edit', $trip) }}"
+                                       class="btn btn-warning">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form action="{{ route('supervisor.trips.destroy', $trip) }}" 
+                                          method="POST" 
+                                          style="flex: 1;"
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus perjalanan ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger w-100">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
 
                         </div>

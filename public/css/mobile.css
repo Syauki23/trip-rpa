@@ -261,6 +261,52 @@
         margin-top: 12px;
         padding-top: 12px;
         border-top: 1px solid #F3F4F6;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    /* Actions container for better button layout */
+    .mobile-list-item .actions,
+    .item-actions .actions,
+    .d-flex .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+    
+    /* Make buttons in actions container equal width */
+    .mobile-list-item .actions .btn,
+    .item-actions .actions .btn,
+    .d-flex .actions .btn {
+        flex: 1;
+        min-width: 0;
+        max-width: 100%;
+        padding: 8px 10px !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        min-height: 36px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Form inside actions also gets flex: 1 */
+    .mobile-list-item .actions form,
+    .item-actions .actions form,
+    .d-flex .actions form {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    /* Button inside form in actions */
+    .mobile-list-item .actions form .btn,
+    .item-actions .actions form .btn,
+    .d-flex .actions form .btn {
+        width: 100%;
     }
     
     /* Hide desktop tables on mobile */
